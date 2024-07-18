@@ -1,0 +1,17 @@
+variable,long_name,units,standard_name,comment
+Nights Fished,Nights_Fished,integer,,Consecutive number of nights the trap light turned between trap checks (usually either 1 or 2)
+Hours Fished,Hours_Fished,whole number,,The total number of hours the trap had lights between trap checks
+Number of Dungeness megalopae,Metacarcinus_magister_megalopae,whole number,,Usually an integer although sometimes subsampling protocols can produce estimates with decimals
+Number of Dungeness juvenile instars,Metacarcinus_magister_instar,whole number,,Usually an integer although sometimes subsampling protocols can produce estimates with decimals
+Total Dungeness,TotalMmagister,whole number,,Total Mmagister count in a sample from any life stage
+Catch per unit effort,CPUE_Night,whole number,,Total of Dungeness megalope divided by number of nights the trap fished
+Catch per unit effort,CPUE_Hour,whole number,,Total of Dungeness megalopae divded by number of hours the trap fished
+Mangement area,mgmt_area,,,Not sure what this is!
+Total megalopae carapaces measured,total.measured,integer,,Up to 30 from each sample
+Error code,Error_Code,,,codes associated with common errors from data entries to be removed from final reports
+Error code,DNF,,,Trap did not fish properly
+Error code,MET,,,Missing metadata
+Error code,BAT,,,Trap fished from over 25 hours
+Error code,HRS,,,Timer on/off timer were outside of 1+hours of schedule
+Error code,INC,,,Trap did not fish for over 25% of the nights in any month between April and September
+Error code,ERR,,,protocols not followed properly and counts likely not accurate
