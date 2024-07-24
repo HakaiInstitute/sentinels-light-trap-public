@@ -84,28 +84,13 @@ write_csv(counts_master, "data/Master_QAQC_LightTrap_Counts.csv")
 
 #===== MASTER for PUBLIC GITHUB ================================================
 
-##Remove sites requiring further permissions and wiht incomplete data
-
+##Remove sites requiring further permissions and with incomplete data
 counts_master_p <- counts_master %>%
   dplyr::filter(Code != "PRP" & Code != "PDH" & Code != "POW"
           & Code != "BOO" & Code != "LYA" & Code != "WIN")
 
-counts_master_p <- counts_QC %>%
-  dplyr::select(Code, Site, Lat, Lon, Year, Month, Date, 
-                Nights_Fished, Hours_Fished, Weather, Subsample, 
-                Metacarcinus_magister_megalopae,
-                Metacarcinus_magister_instar, 
-                TotalMmagister = TotalCmagister, 
-                CPUE_Night, CPUE_Hour, Error_Code) %>%
-  filter (Code != "PRP" & Code != "PDH" & Code != "POW"
-          & Code != "BOO" & Code != "LYA" & Code != "WIN")
 
-dplyr::select(Year, Date, Code, Site, Lat, Lon, CPUE_Night) %>%
-  #filter out sites that didn't check trap (also PRI because zero catch and 
-  #extends map far north making it hard to see the rest of the data)
-  filter(Code != "KLE" & Code != "BLU" & Code != "TAK" & Code !="PRI")
-
-write_csv(master_counts_p, "data/Master_QAQC_LightTrap_Counts_publicrepository.
+write_csv(counts_master_p, "data/Master_QAQC_LightTrap_Counts_publicrepository.
           csv")
 
 #===== 2023 Measurements for PUBLIC GITHUB =====================================
@@ -113,8 +98,11 @@ write_csv(master_counts_p, "data/Master_QAQC_LightTrap_Counts_publicrepository.
 meas23 <- read_csv("data/2023/2023_Megalopae_Carapace_Widths.csv")
 
 meas23p <- meas23 %>%
-  filter (!)
-meas23p<-meas23[!(meas23$site=="Pender Harbour" | meas23$site=="Sechelt Inlet")]
+ dplyr::filter(site != "Pender Harbour" & site != "Sechelt Inlet" & site != 
+                 "Powell River" & site != "Boot Cove" & site != "Lyall Harbour"
+               & site != "Winter")
 
+write_csv(meas23p, "data/Master_QAQC_CarapaceWidth_Measurements_publicrepository.
+          csv")
 #================================ END ==========================================
 
