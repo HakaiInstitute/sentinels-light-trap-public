@@ -10,11 +10,14 @@
 #     2023_CountData_QC.csv
 #
 # Output:
-#     MASTER_QAQC_LT_counts.csv
+#     Master_QAQC_LT_counts.csv
+#     Master_QAQC_LightTrap_Counts_publicrepository.csv
+#     2023_Megalopae_Carapace_Widths.csv
+#     Master_QAQC_CarapaceWidth_Measurements_publicrepository.csv
 #
 # Heather Earle (Hakai Institute) heather.earle@hakai.org
 # First Created 11/2023
-# Last Updated 05/2024
+# Last Updated 09/2024
 #===============================================================================
 
 #clean up Enivronment
@@ -32,9 +35,12 @@ library(dplyr)
 # BC Count Data - all years available
 counts22 <- read_csv("data/2022/2022_CountData_QC.csv")
 counts23 <- read_csv("data/2023/2023_CountData_QC.csv")
+counts24 <- read_csv("data/2024/2024_CountData_Rough.csv")
+counts24 <- select(counts24, -Battery, -submissionid, -Comments) #remove columns from rough dataset that 
+                                        #don't match
 
 #combine them
-counts_all <- rbind(counts22, counts23)
+counts_all <- rbind(counts22, counts23, counts24)
 
 ###Bring in Stations data to get lats and longs
 stations <- read.csv("data/Master_Stations.csv") %>% 
@@ -77,7 +83,7 @@ counts_master <- counts_QC %>%
          Nights_Fished, Hours_Fished, Weather, Subsample, 
          Metacarcinus_magister_megalopae,
          Metacarcinus_magister_instar, 
-         TotalMmagister = TotalCmagister, 
+         TotalMmagister = TotalMmagister, 
          CPUE_Night, CPUE_Hour, Error_Code)
 
 write_csv(counts_master, "data/Master_QAQC_LightTrap_Counts.csv")
