@@ -35,8 +35,8 @@ library(dplyr)
 # BC Count Data - all years available
 counts22 <- read_csv("data/2022/2022_CountData_QC.csv")
 counts23 <- read_csv("data/2023/2023_CountData_QC.csv")
-counts24 <- read_csv("data/2024/2024_CountData_Rough.csv")
-counts24 <- select(counts24, -Battery, -submissionid, -Comments) #remove columns from rough dataset that 
+counts24 <- read_csv("data/2024/2024_CountData_QC.csv")
+counts24 <- select(counts24, -Battery, -submissionid, -Comments, -...28) #remove columns from rough dataset that 
                                         #don't match
 
 #combine them
@@ -64,8 +64,12 @@ counts_master <- merge(counts_all,stations,by=c("Site"))
 
 # For annual reports and Hakai Data Catalogue, remove all MET, DNF, ERR, & INC
 # entries:
-counts_QC <- counts_master %>%  filter(Error_Code=="None" | Error_Code== "HRS" 
-                                        | Error_Code == "BAT")
+counts_QC <- counts_master %>%  filter(Error_Code=="NA" | Error_Code== "HRS" 
+                                        | Error_Code == "BAT" | Error_Code == "SUB")
+###note, here I added teh "SUB" error code so that the Whaler Bay subsampled 
+#numbers from late June/early July 2024 would still be included in the fall gathering
+#graphs. Will decide what to do with these problematic data at a later date 
+
 
 ##Create dataframe w/ removed entries to keep track
 counts_removed <- counts_master %>% filter (Error_Code =="DNF" | 
