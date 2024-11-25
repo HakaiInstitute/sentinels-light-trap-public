@@ -45,10 +45,10 @@ cw_data <- read_csv(here("data", "Master_QAQC_CarapaceWidth_Measurements_publicr
          project = "SOC",
          trap = paste(project, code, sep = "-"),
          stationVisit = paste(trap, year, month, day, sep = "-")) %>%
-  drop_na(width)
+  drop_na(carapace_width)
 
 master <- merge(x = dung_count,
-                y = cw_data[ , c("stationVisit", "width")], by = "stationVisit", all.x = TRUE)
+                y = cw_data[ , c("stationVisit", "carapace_width")], by = "stationVisit", all.x = TRUE)
 
 ## Section 1. Event Core
 
@@ -112,7 +112,7 @@ stationVisit <- dung_count %>%
 
 # add information on specimens:
 individual <- master %>%
-  filter(!is.na(width)) %>%
+  filter(!is.na(carapace_width)) %>%
   select(parentEventID = stationVisit) %>%
   group_by(parentEventID) %>%
   mutate(eventID = paste(parentEventID, "m", sep = "-"),
@@ -309,17 +309,17 @@ emof_occ <- left_join(SOC_occ, SOC_event, by = "eventID") %>%
 
 # Measurements (carapace width) related to individuals:
 indMeasurement <- master %>% 
-  filter(!is.na(width)) %>%
+  filter(!is.na(carapace_width)) %>%
   mutate(eventID = paste(stationVisit, "m", sep = "-")) %>%
   group_by(eventID) %>%
   mutate(eventID = paste0(eventID, row_number())) %>%
-  select(eventID, width)
+  select(eventID, carapace_width)
 
 carapace <- merge(x = indMeasurement, y = SOC_occ_extension[ , c("eventID", "occurrenceID")],
                   by = "eventID", all.x = T)
 
 emof_carapace <- carapace %>%
-  rename(measurementValue = width) %>%
+  rename(measurementValue = carapace_width) %>%
   mutate(measurementValue = as.character(measurementValue),
          measurementID = paste(occurrenceID, row_number(), sep = "-"),
          measurementType = "carapace width", 
