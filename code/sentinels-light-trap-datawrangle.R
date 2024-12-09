@@ -36,8 +36,7 @@ dung_count <- read_csv(here("data", "Master_QAQC_LightTrap_Counts_publicreposito
 # Read in associated carapace width (cw) data.
 cw_data <- read_csv(here("data", "Master_QAQC_CarapaceWidth_Measurements_publicrepository.csv")) %>%
   janitor::clean_names() %>%
-  mutate(site = ifelse(site == "Campbell River Aquarium", "Campbell River", site),
-         site = ifelse(site == "Hot Spring Cove", "Hotsprings Cove", site)) %>%
+  mutate(site = ifelse(site == "Hot Spring Cove", "Hotsprings Cove", site)) %>%
   left_join(stations, by = "site") %>%
   mutate(year = as.numeric(format(as.Date(date), "%Y")),
          month = as.numeric(format(as.Date(date), "%m")),
@@ -47,8 +46,9 @@ cw_data <- read_csv(here("data", "Master_QAQC_CarapaceWidth_Measurements_publicr
          stationVisit = paste(trap, year, month, day, sep = "-")) %>%
   drop_na(carapace_width)
 
-master <- merge(x = dung_count,
-                y = cw_data[ , c("stationVisit", "carapace_width")], by = "stationVisit", all.x = TRUE)
+master <- merge(x = cw_data[ , c("stationVisit", "carapace_width")], 
+                y = dung_count, by = "stationVisit", all.x = TRUE) %>%
+  drop_na(project)
 
 ## Section 1. Event Core
 
@@ -150,7 +150,8 @@ occ <- left_join(dung_count, stations, by = c("code", "site")) %>%
   select(eventID, organization, metacarcinus_magister_instar, metacarcinus_magister_megalopae) %>%
   pivot_longer(metacarcinus_magister_instar:metacarcinus_magister_megalopae,
                names_to = "verbatimIdentification",
-               values_to = "individualCount")
+               values_to = "individualCount") %>%
+  drop_na(individualCount)
 
 # Add lifestage columns:
 occ <- occ %>%
@@ -196,7 +197,7 @@ SOC_occ <- occ %>%
 # Next, we create the 'second occurrence extension' data table, to include occurrenceIDs for just the megalopae lifestage occurrences. 
 # Instar lifestages were not measured. We'll use these individual occurrenceIDs in the extended measurement or fact extension as well.
 
-ind_cw <- cw_data %>%
+ind_cw <- master %>%
   group_by(stationVisit) %>%
   mutate(eventID = paste(stationVisit, "m", sep = "-"),
          eventID = paste0(eventID, row_number()),
