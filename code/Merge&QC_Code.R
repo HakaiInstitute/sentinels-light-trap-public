@@ -20,7 +20,7 @@
 #
 # Heather Earle (Hakai Institute) heather.earle@hakai.org
 # First Created 11/2023
-# Last Updated 11/2024
+# Last Updated 01/2025
 #===============================================================================
 
 #clean up Enivronment
@@ -50,7 +50,7 @@ stations <- read.csv("data/Master_Stations.csv") %>%
   dplyr::select( Site = Site, Lat, Lon)
 
 #join datasets, now all entries have an associated lat and long
-counts_master <- merge(counts_all,stations,by=c("Site"))
+counts_raw <- merge(counts_all,stations,by=c("Site"))
 
 
 #==== QAQC DETERMINATIONS ======================================================
@@ -67,15 +67,15 @@ counts_master <- merge(counts_all,stations,by=c("Site"))
 
 # For annual reports and Hakai Data Catalogue, remove all MET, DNF, ERR, & INC
 # entries:
-counts_QC <- counts_master %>%  filter(Error_Code== "None" | Error_Code== "HRS" 
-                                        | Error_Code == "BAT" | Error_Code == "SUB")
+counts_QC <- counts_raw %>%  filter(Error_Code== "None" | Error_Code== "HRS" 
+                                        | Error_Code == "BAT")
 ###note, here I added teh "SUB" error code so that the Whaler Bay subsampled 
 #numbers from late June/early July 2024 would still be included in the fall gathering
 #graphs. Will decide what to do with these problematic data at a later date 
 
 
 ##Create dataframe w/ removed entries to keep track
-counts_removed <- counts_master %>% filter (Error_Code =="DNF" | 
+counts_removed <- counts_raw %>% filter (Error_Code =="DNF" | 
                                             Error_Code =="MET" |
                                             Error_Code == "ERR" | 
                                             Error_Code == "INC")
@@ -106,10 +106,22 @@ counts_master <- counts_QC %>%
          TotalMmagister = TotalMmagister, 
          CPUE_Night, CPUE_Hour, Error_Code)
 
-##create csv
+counts_raw <- counts_raw %>%
+  dplyr:: select(Code, Site, Lat, Lon, Year, Month, Date, 
+                 Nights_Fished, Hours_Fished, Weather, Subsample, 
+                 Metacarcinus_magister_megalopae,
+                 Metacarcinus_magister_instar, 
+                 TotalMmagister = TotalMmagister, 
+                 CPUE_Night, CPUE_Hour, Error_Code)
+
+
+##create raw csv
+write_csv(counts_raw, "data/Master_raw_LightTrap_Counts.csv")
+
+##create master csv filtered by QC codes
 write_csv(counts_master, "data/Master_QAQC_LightTrap_Counts.csv")
 
-##create csv of removed entries
+##create csv of removed entries from QC codes
 write_csv(measurements_all, "data/Master_QAQC_Carapace_Width_Measurements.csv")
 
 #####MEASUREMENTS#####
@@ -123,7 +135,7 @@ write_csv(measurements_all, "data/Master_QAQC_Carapace_Width_Measurements.csv")
 ##Remove sites requiring further permissions and with incomplete data
 counts_master_p <- counts_master %>%
   dplyr::filter(Code != "PRP" & Code != "PDH" & Code != "POW"
-          & Code != "BOO" & Code != "LYA" & Code != "WIN")
+          & Code != "BOO" & Code != "LYA" & Code != "WIN" & Code != "PRI" & Code != "MAS")
 
 
 write_csv(counts_master_p, "data/Master_QAQC_LightTrap_Counts_publicrepository.csv")
@@ -134,7 +146,7 @@ write_csv(counts_master_p, "data/Master_QAQC_LightTrap_Counts_publicrepository.c
 measurements_all <- measurements_all %>%
   dplyr::filter(site != "Pender Harbour" & site != "Sechelt Inlet" & site != 
                   "Powell River" & site != "Boot Cove" & site != "Lyall Harbour"
-                & site != "Winter")
+                & site != "Winter Cove")
 
 #write csv for public repository
 write_csv(measurements_all, "data/Master_QAQC_CarapaceWidth_Measurements_publicrepository.csv")
