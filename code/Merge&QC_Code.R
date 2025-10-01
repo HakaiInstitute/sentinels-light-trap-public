@@ -9,8 +9,10 @@
 #     2022_CountData_QC.csv
 #     2023_CountData_QC.csv
 #     2024_CountData_QC.csv
+#     2025_CountData_QC.csv
 #     2023_Megalopae_Carapace_Widths.csv
 #     2024_Megalopae_Carapace_Widths.csv
+#     2025_Megalopae_Carapace_Widths.csv
 #
 # Output:
 #     Master_QAQC_LT_counts.csv
@@ -20,7 +22,7 @@
 #
 # Heather Earle (Hakai Institute) heather.earle@hakai.org
 # First Created 11/2023
-# Last Updated 01/2025
+# Last Updated 10/2025
 #===============================================================================
 
 #clean up Enivronment
@@ -41,9 +43,10 @@ counts23 <- read_csv("data/2023/2023_CountData_QC.csv")
 counts24 <- read_csv("data/2024/2024_CountData_QC.csv")
 counts24 <- select(counts24, -Battery, -submissionid, -Comments, -...28) #remove columns from rough dataset that 
                                         #don't match
+counts25 <- read_csv("data/2025/2025_CountData_QC.csv")
 
 #combine them
-counts_all <- rbind(counts22, counts23, counts24)
+counts_all <- rbind(counts22, counts23, counts24, counts25)
 
 ###Bring in Stations data to get lats and longs
 stations <- read.csv("data/Master_Stations.csv") %>% 
@@ -89,9 +92,10 @@ measurements23 <- read_csv("data/2023/2023_Megalopae_Carapace_Widths.csv")
 measurements24 <- read_csv("data/2024/2024_Megalopae_Carapace_Widths.csv")
 measurements24 <- select(measurements24, -submission_id, -measured_by,
                          -photo_comments) #remove columns from rough dataset that don't match
+measurements25 <- read_csv("data/2024/2024_Megalopae_Carapace_Widths.csv")
 
 #combine years
-measurements_all <- rbind(measurements23, measurements24)
+measurements_all <- rbind(measurements23, measurements24, measurements25)
 
 
 #==== MASTER Datasets for Internal GITHUB ======================================
