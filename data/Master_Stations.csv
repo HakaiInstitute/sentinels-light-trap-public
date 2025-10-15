@@ -1,49 +1,84 @@
-﻿Code,Site,Organization,Lat,Lon,mgmt_area,trap_checks2022,trap_checks2023,trap_checks2024,trap_checks2025,Comment
-ALB,Alberni Inlet,Fisheries and Oceans Canada,49.231972,-124.81451,E,0,50,55,0,2024 last year of sampling
-BAM,Bamfield,Bamfield Marine Sciences Centre,48.834409,-125.13689,E,0,61,0,0,
-BLU,Blunden Harbour,Gwa'sala-'Nakwaxda'xw Nation Guardians,50.908664,-127.28831,G,0,0,0,0,
-BOO,Boot Cove,Community Member,48.796,-123.179,H,25,0,0,0,Moved from winter cove to here July 2022
-CAM,Campbell River Aquarium,Campbell River Aquarium,50.021321,-125.23547,G,0,54,63,63,
-COM,Comox Marina,Hakai Institute and Comox Valley Community,49.669869,-124.93214,H,0,0,70,71,
-COS,Cortes Bay,Friends of Cortes Island Society,50.06104,-124.92954,G,54,71,58,0,2024 last year of sampling
-COW,Cowichan Bay,Cowichan Estuary Restoration & Conservation Association,48.743411,-123.62797,H,38,55,57,57,
-DAA,Daajing Giids,Council of the Haida Nation,53.252061,-132.07252,A,0,0,49,,
-DEN,Denman Island,Association for Denman Island Marine Stewards,49.53396,-124.82183,H,0,55,32,35,
-DES,Descanso Bay,Gabriola Island Community,49.177887,-123.85815,H,63,72,73,74,
-ECH,Echo Bay,Salmon Coast Field Station,50.745688,-126.499202,,0,0,0,84,
-FAL,False Bay,Lasqueti Island Nature Conservancy,49.486124,-124.35905,H,60,86,0,0,2023 last year of sampling
-FOR,Ford Cove,"Hornby Island Diving, Conservancy Hornby Island, Hornby Island Natural History Centre",49.497028,-124.67667,H,58,43,62,56,
-GIB,Gibsons Harbour,Nicholas Sonntag Marine Education Centre,49.40093,-123.50431,I,0,64,0,54,
-GOR,Victoria Gorge,"Ministry of Water, Land and Resource Stewardship",48.439468,-123.37984,H,0,0,45,0,2024 only year of sampling
-HEA,Heather Marina,False Creek Friends Society,49.269518,-123.12001,I,78,59,65,70,
-HER,Heriot Bay,Hakai Institute and Quadra Island Community,50.102299,-125.20164,G,60,61,0,0,moved to Q cove from here in 2024
-HOP,Hope Bay,Pender Islands Conservancy,48.803253,-123.27521,H,35,53,50,63,
-HOR,Horseshoe Bay,Ocean Wise and Howe Sound Marine Stewardship Initiative,49.375655,-123.27313,I,67,63,64,68,
-HOT,Hotsprings Cove,Ha'oom Fisheries,49.369942,-126.2718,E,0,0,0,0,
-IND,Indian Arm,Wigwam Inn,49.461387,-122.88625,I,0,64,63,65,
-IOS,Institute of Ocean Sciences,Fisheries and Oceans Canada,48.652354,-123.44967,H,55,0,0,0,2022 last year of sampling
-JAM,James Island Pier,Tsawout First Nation Fisheries Department,48.598934,-123.38867,H,0,68,67,68,
-KLE,Klemtu,Kitasoo/Xai'Xais Stewardship Authority + SEAS Student Program,52.58725,-128.51837,B,0,0,0,0,
-LYA,Lyall Harbour,Saturna Ecological Education Centre,48.798,-123.20032,H,0,13,0,0,Stopped sampling July 2023
-MAS,Masset,Council of the Haida Nation,54.007618,-132.14171,A,0,0,12,,stopped sampling mid June 2024
-MIN,Miners Bay,Mayne Island Conservancy,48.852116,-123.30153,H,60,55,45,64,
-OON,Oona River,Oona River Hatchery,"53.939258	-130.243046",,,0,0,0,19,
-PAC,Pacific Science Enterprise Centre,Tsleil-Waututh Nation and Fisheries and Oceans Canada,49.340105,-123.23298,I,63,35,61,0,
-PBS,Pacific Biological Station,Fisheries and Oceans Canada,49.210394,-123.95659,H,55,44,52,58,
-PDH,Pender Harbour,Pender Harbour Ocean Discovery Station,49.623357,-124.02568,G,92,82,68,59,
-POW,Powell River Marina,Powell River Volunteer,49.835512,-124.52978,G,0,25,0,0,2023 last year of sampling
-PRI,Prince Rupert,Fisheries and Oceans Canada,54.319661,-130.3182,B,0,38,7,,
-PMO,Port Moody,Burrard Inlet Marine Enhancement Society,49.30056,-122.87578,,0,0,0,55,
-PRP,Porpoise Bay,shishalh First Nation Fisheries Technicians,49.484078,-123.76236,H,0,38,0,0,2023 last year of sampling
-PSJ,Port of San Juan,Pacheedaht First Nation,48.563292,-124.42468,E,0,0,0,0,
-QUA,Quathiaski Cove,Hakai Institute and Quadra Island Community,50.042604,-125.21604,G,0,0,60,72,moved from Heriot Bay to here in 2024
-RET,Retreat Cove,Galiano Conservation Association,48.940555,-123.50132,H,69,70,39,14,
-SAL,Saltspring Island,Saltspring Community,48.845178,-123.489863,,0,0,0,71,
-SIL,Silva Bay,Gabriola Power Squadron,49.149062,-123.69713,H,70,79,78,73,
-SOO,Sooke Basin,T'sou-ke Nation,48.37,-123.72722,E,0,19,31,45,
-SUR,Surge Narrows,Surge Narrows School,50.227191,-125.11224,G,41,24,0,0,2023 last year of sampling
-TAK,Takush Harbour,Gwa'sala-'Nakwaxda'xw Nation Guardians,51.284665,-127.64141,G,0,0,0,0,
-TOF,Tofino,Jamie's Whaling Station,49.151969,-125.89702,E,0,0,50,39,
-WHA,Whaler Bay,Institute for Multidisciplinary Ecological Research in the Salish Sea,48.884619,-123.32731,H,56,24,61,56,
-WIN,Winter Cove,Saturna Ecological Education Centre,48.809618,-123.1902,H,17,0,0,0,2022 only year of sampling
-VIC,Victoria Inner Harbour,Gorge Waterways Action Society,48.42697,-123.38386,H,0,0,67,71,
+﻿Code,Region,Site,Organization,Lat,Lon,mgmt_area,trap_checks2022,trap_checks2023,trap_checks2024,trap_checks2025,active_2025,Comment
+ALB,BC,Alberni Inlet,Fisheries and Oceans Canada,49.231972,-124.81451,E,0,50,55,0,N,2024 last year of sampling
+BAM,BC,Bamfield,Bamfield Marine Sciences Centre,48.834409,-125.13689,E,0,61,0,0,N,
+BLU,BC,Blunden Harbour,Gwa'sala-'Nakwaxda'xw Nation Guardians,50.908664,-127.28831,G,0,0,0,0,N,
+BOO,BC,Boot Cove,Community Member,48.796,-123.179,H,25,0,0,0,N,Moved from winter cove to here July 2022
+CAM,BC,Campbell River Aquarium,Campbell River Aquarium,50.021321,-125.23547,G,0,54,63,63,Y,
+COM,BC,Comox Marina,Hakai Institute and Comox Valley Community,49.669869,-124.93214,H,0,0,70,71,Y,
+COS,BC,Cortes Bay,Friends of Cortes Island Society,50.06104,-124.92954,G,54,71,58,0,N,2024 last year of sampling
+COW,BC,Cowichan Bay,Cowichan Estuary Restoration & Conservation Association,48.743411,-123.62797,H,38,55,57,57,Y,
+DAA,BC,Daajing Giids,Council of the Haida Nation,53.252061,-132.07252,A,0,0,49,,Y,
+DEN,BC,Denman Island,Association for Denman Island Marine Stewards,49.53396,-124.82183,H,0,55,32,35,Y,
+DES,BC,Descanso Bay,Gabriola Island Community,49.177887,-123.85815,H,63,72,73,74,Y,
+ECH,BC,Echo Bay,Salmon Coast Field Station,50.745688,-126.499202,,0,0,0,84,Y,
+FAL,BC,False Bay,Lasqueti Island Nature Conservancy,49.486124,-124.35905,H,60,86,0,0,N,2023 last year of sampling
+FOR,BC,Ford Cove,"Hornby Island Diving, Conservancy Hornby Island, Hornby Island Natural History Centre",49.497028,-124.67667,H,58,43,62,56,Y,
+GIB,BC,Gibsons Harbour,Nicholas Sonntag Marine Education Centre,49.40093,-123.50431,I,0,64,0,54,Y,
+GOR,BC,Victoria Gorge,"Ministry of Water, Land and Resource Stewardship",48.439468,-123.37984,H,0,0,45,0,N,2024 only year of sampling
+HEA,BC,Heather Marina,False Creek Friends Society,49.269518,-123.12001,I,78,59,65,70,Y,
+HER,BC,Heriot Bay,Hakai Institute and Quadra Island Community,50.102299,-125.20164,G,60,61,0,0,N,moved to Q cove from here in 2024
+HOP,BC,Hope Bay,Pender Islands Conservancy,48.803253,-123.27521,H,35,53,50,63,Y,
+HOR,BC,Horseshoe Bay,Ocean Wise and Howe Sound Marine Stewardship Initiative,49.375655,-123.27313,I,67,63,64,68,Y,
+HOT,BC,Hotsprings Cove,Ha'oom Fisheries,49.369942,-126.2718,E,0,0,0,0,N,
+IND,BC,Indian Arm,Wigwam Inn,49.461387,-122.88625,I,0,64,63,65,Y,
+IOS,BC,Institute of Ocean Sciences,Fisheries and Oceans Canada,48.652354,-123.44967,H,55,0,0,0,N,2022 last year of sampling
+JAM,BC,James Island Pier,Tsawout First Nation Fisheries Department,48.598934,-123.38867,H,0,68,67,68,Y,
+KLE,BC,Klemtu,Kitasoo/Xai'Xais Stewardship Authority + SEAS Student Program,52.58725,-128.51837,B,0,0,0,0,N,
+LYA,BC,Lyall Harbour,Saturna Ecological Education Centre,48.798,-123.20032,H,0,13,0,0,N,Stopped sampling July 2023
+MAS,BC,Masset,Council of the Haida Nation,54.007618,-132.14171,A,0,0,12,,Y,stopped sampling mid June 2024
+MIN,BC,Miners Bay,Mayne Island Conservancy,48.852116,-123.30153,H,60,55,45,64,Y,
+OON,BC,Oona River,Oona River Hatchery,"53.939258	-130.243046",,,0,0,0,19,Y,
+PAC,BC,Pacific Science Enterprise Centre,Tsleil-Waututh Nation and Fisheries and Oceans Canada,49.340105,-123.23298,I,63,35,61,0,N,
+PBS,BC,Pacific Biological Station,Fisheries and Oceans Canada,49.210394,-123.95659,H,55,44,52,58,Y,
+PDH,BC,Pender Harbour,Pender Harbour Ocean Discovery Station,49.623357,-124.02568,G,92,82,68,59,Y,
+POW,BC,Powell River Marina,Powell River Volunteer,49.835512,-124.52978,G,0,25,0,0,N,2023 last year of sampling
+PRI,BC,Prince Rupert,Fisheries and Oceans Canada,54.319661,-130.3182,B,0,38,7,,Y,
+PMO,BC,Port Moody,Burrard Inlet Marine Enhancement Society,49.30056,-122.87578,,0,0,0,55,Y,
+PRP,BC,Porpoise Bay,shishalh First Nation Fisheries Technicians,49.484078,-123.76236,H,0,38,0,0,N,2023 last year of sampling
+PSJ,BC,Port of San Juan,Pacheedaht First Nation,48.563292,-124.42468,E,0,0,0,0,N,
+QUA,BC,Quathiaski Cove,Hakai Institute and Quadra Island Community,50.042604,-125.21604,G,0,0,60,72,Y,moved from Heriot Bay to here in 2024
+RET,BC,Retreat Cove,Galiano Conservation Association,48.940555,-123.50132,H,69,70,39,14,Y,
+SAL,BC,Saltspring Island,Saltspring Community,48.845178,-123.489863,,0,0,0,71,Y,
+SIL,BC,Silva Bay,Gabriola Power Squadron,49.149062,-123.69713,H,70,79,78,73,Y,
+SOO,BC,Sooke Basin,T'sou-ke Nation,48.37,-123.72722,E,0,19,31,45,Y,
+SUR,BC,Surge Narrows,Surge Narrows School,50.227191,-125.11224,G,41,24,0,0,N,2023 last year of sampling
+TAK,BC,Takush Harbour,Gwa'sala-'Nakwaxda'xw Nation Guardians,51.284665,-127.64141,G,0,0,0,0,N,
+TOF,BC,Tofino,Jamie's Whaling Station,49.151969,-125.89702,E,0,0,50,39,Y,
+WHA,BC,Whaler Bay,Institute for Multidisciplinary Ecological Research in the Salish Sea,48.884619,-123.32731,H,56,24,61,56,Y,
+WIN,BC,Winter Cove,Saturna Ecological Education Centre,48.809618,-123.1902,H,17,0,0,0,N,2022 only year of sampling
+VIC,BC,Victoria Inner Harbour,Gorge Waterways Action Society,48.42697,-123.38386,H,0,0,67,71,Y,
+ANA,WA,Fidalgo Bay - Anacortes,Swinomish Indian Tribal Community,48.510059,-122.604745,NA,,,,,Y,
+APS,WA,Agate Pass South - Kiana Lodge,Suquamish Tribe,47.70186,-122.581108,NA,,,,,Y,
+BBA,WA,Birch Bay,DNR,48.93431,-122.763,NA,,,,,Y,
+BHE,WA,Birch Head,DNR,48.937581,-122.815368,NA,,,,,Y,
+CLM,WA,Chinook Landing Marina,Puyallup Tribe,47.2804,-122.4012,NA,,,,,Y,
+COR,WA,Cornet Bay,Swinomish Indian Tribal Community,48.400322,-122.625143,NA,,,,,Y,
+DWEST,WA,Dungeness West,Jamestown S'Klallam Tribe,,,NA,,,,,N,
+FHL,WA,Friday Harbor Labs,"Friday Harbor High School in 2021, SITC from 2022 onwards",48.545314,-123.012036,NA,,,,,Y,
+GAD,WA,Glen Ayr Dock,Skokomish Tribe,47.420556,-123.130105,NA,,,,,Y,
+GBP,WA,Gooseberry Point,Lummi Tribe,,,NA,,,,,N,
+HPD,WA,Hales Pass Dock,Lummi Nation,48.731217,-122.6694,NA,,,,,Y,
+LGM,WA,Langley Marina,Whidbey Watershed Stewards,48.039166,-122.403055,NA,,,,,Y,
+LMI,WA,Lummi Island,Lummi Island Community Science Group,48.68677,-122.639026,NA,,,,,Y,
+LOF,WA,Lofall Community Dock,Port Gamble S'Klallam Tribe,47.815366,-122.655995,NA,,,,,Y,
+MBT,WA,Mukilteo - Mount Baker Terminal,WDFW,47.95416,-122.28821,NA,,,,,Y,
+MCR,WA,Clam Bay - Manchester Research Station,Puget Sound Restoration Fund,47.57377,-122.545308,NA,,,,,Y,
+MST,WA,MaST Aquarium at Redondo,"UWT, MaST, SaMI",47.349217,-122.325128,NA,,,,,Y,
+MUK,WA,NFRC - Mukilteo Research Station,NOAA NWFSC,47.950137,-122.302385,NA,,,,,Y,
+NBY,WA,Neah Bay,Makah Tribe,48.368748,-124.613309,NA,,,,,Y,
+OAK,WA,Crescent Harbor,Swinomish Indian Tribal Community,48.28485,-122.622799,NA,,,,,Y,
+PDM,WA,Point Defiance Marina,"UWT, SaMI, MaST, Highline, Pt Defiance Zoo & Aquarium",47.307393,-122.516652,NA,,,,,Y,
+PEN,WA,Penn Cove,Swinomish Indian Tribal Community,48.22284,-122.687963,NA,,,,,Y,
+PTW,WA,Point Wilson,Port Townsend Marine Science Center,48.13576,-122.760792,NA,,,,,Y,
+PWH,WA,Point Whitehorn,DNR,48.89207,-122.802,NA,,,,,Y,
+QLM,WA,Quileute Marina,Quileute Natural Resources,47.910662,-124.637465,NA,,,,,Y,
+ROS,WA,Rosario Head,Swinomish Indian Tribal Community,48.416618,-122.663325,NA,,,,,Y,
+SEA,WA,Seabeck,Port Gamble S'Klallam Tribe,47.642722,-122.828331,NA,,,,,Y,
+SHM,WA,Shilshole Bay Marina,UW,47.686589,-122.404056,NA,,,,,Y,
+SMS,WA,Semiamoo Spit,"SITC, RE Sources",48.991144,-122.7713,NA,,,,,N,
+SQR,WA,Sequim Bay - Runstrom,Jamestown S'Klallam Tribe,48.037076,-123.019722,NA,,,,,Y,
+TBM,WA,Tulalip Bay Marina,Tulalip Tribe,48.061757,-122.279217,NA,,,,,Y,
+TOK,WA,Tokeland Marina,"WDFW, Shoalwater Bay Tribe",46.707762,-123.967377,NA,,,,,Y,
+WAA,WA,Wa'atch River,Makah Tribe,48.34672,-124.66292,NA,,,,,Y,
+WTP,WA,Westport Marina,WDFW,46.910525,-124.111444,NA,,,,,Y,
+ZIT,WA,Zittels Marina,"Nisqually Tribe, DNR Aquatic Reserves, PSI",47.165366,-122.808021,NA,,,,,Y,
