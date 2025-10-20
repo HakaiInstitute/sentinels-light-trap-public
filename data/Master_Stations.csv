@@ -1,4 +1,4 @@
-﻿Code,Region,Site,Organization,Lat,Lon,mgmt_area,trap_checks2022,trap_checks2023,trap_checks2024,trap_checks2025,active_2025,Comment
+﻿Code,Region,Site,Organization,lat,lon,mgmt_area,trap_checks2022,trap_checks2023,trap_checks2024,trap_checks2025,active_2025,Comment
 ALB,BC,Alberni Inlet,Fisheries and Oceans Canada,49.231972,-124.81451,E,0,50,55,0,N,2024 last year of sampling
 BAM,BC,Bamfield,Bamfield Marine Sciences Centre,48.834409,-125.13689,E,0,61,0,0,N,
 BLU,BC,Blunden Harbour,Gwa'sala-'Nakwaxda'xw Nation Guardians,50.908664,-127.28831,G,0,0,0,0,N,
@@ -27,7 +27,7 @@ KLE,BC,Klemtu,Kitasoo/Xai'Xais Stewardship Authority + SEAS Student Program,52.5
 LYA,BC,Lyall Harbour,Saturna Ecological Education Centre,48.798,-123.20032,H,0,13,0,0,N,Stopped sampling July 2023
 MAS,BC,Masset,Council of the Haida Nation,54.007618,-132.14171,A,0,0,12,,Y,stopped sampling mid June 2024
 MIN,BC,Miners Bay,Mayne Island Conservancy,48.852116,-123.30153,H,60,55,45,64,Y,
-OON,BC,Oona River,Oona River Hatchery,"53.939258	-130.243046",,,0,0,0,19,Y,
+OON,BC,Oona River,Oona River Hatchery,53.939258,-130.243046,,0,0,0,19,Y,
 PAC,BC,Pacific Science Enterprise Centre,Tsleil-Waututh Nation and Fisheries and Oceans Canada,49.340105,-123.23298,I,63,35,61,0,N,
 PBS,BC,Pacific Biological Station,Fisheries and Oceans Canada,49.210394,-123.95659,H,55,44,52,58,Y,
 PDH,BC,Pender Harbour,Pender Harbour Ocean Discovery Station,49.623357,-124.02568,G,92,82,68,59,Y,
