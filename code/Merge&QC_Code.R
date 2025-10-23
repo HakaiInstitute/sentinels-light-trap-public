@@ -43,14 +43,14 @@ counts23 <- read_csv("data/2023/2023_CountData_QC.csv")
 counts24 <- read_csv("data/2024/2024_CountData_QC.csv")
 counts24 <- select(counts24, -Battery, -submissionid, -Comments, -...28) #remove columns from rough dataset that 
                                         #don't match
-counts25 <- read_csv("data/2025/2025_CountData_QC.csv")
-
+counts25 <- read_csv("data/2025/2025counts_temporary.csv")
+counts25 <- select(counts25, -submissionid)
 #combine them
 counts_all <- rbind(counts22, counts23, counts24, counts25)
 
 ###Bring in Stations data to get lats and longs
 stations <- read.csv("data/Master_Stations.csv") %>% 
-  dplyr::select( Site = Site, Lat, Lon)
+  dplyr::select( Site = Site, lat, lon)
 
 #join datasets, now all entries have an associated lat and long
 counts_raw <- merge(counts_all,stations,by=c("Site"))
@@ -103,7 +103,7 @@ measurements_all <- rbind(measurements23, measurements24, measurements25)
 ####COUNTS#####
 # Select columns for dataframe that will be on internal github
 counts_master <- counts_QC %>%
- dplyr:: select(Code, Site, Lat, Lon, Year, Month, Date, 
+ dplyr:: select(Code, Site, lat, lon, Year, Month, Date, 
          Nights_Fished, Hours_Fished, Weather, Subsample, 
          Metacarcinus_magister_megalopae,
          Metacarcinus_magister_instar, 
@@ -111,7 +111,7 @@ counts_master <- counts_QC %>%
          CPUE_Night, CPUE_Hour, Error_Code)
 
 counts_raw <- counts_raw %>%
-  dplyr:: select(Code, Site, Lat, Lon, Year, Month, Date, 
+  dplyr:: select(Code, Site, lat, lon, Year, Month, Date, 
                  Nights_Fished, Hours_Fished, Weather, Subsample, 
                  Metacarcinus_magister_megalopae,
                  Metacarcinus_magister_instar, 
