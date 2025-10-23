@@ -41,10 +41,12 @@ library(dplyr)
 counts22 <- read_csv("data/2022/2022_CountData_QC.csv")
 counts23 <- read_csv("data/2023/2023_CountData_QC.csv")
 counts24 <- read_csv("data/2024/2024_CountData_QC.csv")
-counts24 <- select(counts24, -Battery, -submissionid, -Comments, -...28) #remove columns from rough dataset that 
+counts24 <- select(counts24, -Battery, -submissionid, -Comments) #remove columns from rough dataset that 
                                         #don't match
-counts25 <- read_csv("data/2025/2025counts_temporary.csv")
-counts25 <- select(counts25, -submissionid)
+counts25 <- read_csv("data/2025/counts_2025_raw.csv",
+                     col_select = 2:27)
+
+
 #combine them
 counts_all <- rbind(counts22, counts23, counts24, counts25)
 
