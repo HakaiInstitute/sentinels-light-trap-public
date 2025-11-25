@@ -43,7 +43,7 @@ counts23 <- read_csv("data/2023/2023_CountData_QC.csv")
 counts24 <- read_csv("data/2024/2024_CountData_QC.csv")
 counts24 <- select(counts24, -Battery, -submissionid, -Comments) #remove columns from rough dataset that 
                                         #don't match
-counts25 <- read_csv("data/2025/counts_2025_raw.csv",
+counts25 <- read_csv("data/2025/2025_CountData_QC.csv",
                      col_select = 2:27)
 
 
@@ -74,9 +74,7 @@ counts_raw <- merge(counts_all,stations,by=c("Site"))
 # entries:
 counts_QC <- counts_raw %>%  filter(Error_Code== "None" | Error_Code== "HRS" 
                                         | Error_Code == "BAT")
-###note, here I added teh "SUB" error code so that the Whaler Bay subsampled 
-#numbers from late June/early July 2024 would still be included in the fall gathering
-#graphs. Will decide what to do with these problematic data at a later date 
+
 
 
 ##Create dataframe w/ removed entries to keep track
@@ -94,7 +92,7 @@ measurements23 <- read_csv("data/2023/2023_Megalopae_Carapace_Widths.csv")
 measurements24 <- read_csv("data/2024/2024_Megalopae_Carapace_Widths.csv")
 measurements24 <- select(measurements24, -submission_id, -measured_by,
                          -photo_comments) #remove columns from rough dataset that don't match
-measurements25 <- read_csv("data/2024/2024_Megalopae_Carapace_Widths.csv")
+measurements25 <- read_csv("data/2025/2025_Megalopae_Carapace_Widths.csv")
 
 #combine years
 measurements_all <- rbind(measurements23, measurements24, measurements25)
@@ -128,10 +126,10 @@ write_csv(counts_raw, "data/Master_raw_LightTrap_Counts.csv")
 write_csv(counts_master, "data/Master_QAQC_LightTrap_Counts.csv")
 
 ##create csv of removed entries from QC codes
-write_csv(measurements_all, "data/Master_QAQC_Carapace_Width_Measurements.csv")
+write_csv(counts_removed, "data/Master_Removed_Counts.csv")
 
 #####MEASUREMENTS#####
- write_csv(counts_removed, "data/Master_Removed_Counts.csv")
+write_csv(measurements_all, "data/Master_QAQC_Carapace_Width_Measurements.csv")
 
 
 #===== MASTER Datasets for PUBLIC GITHUB =======================================
