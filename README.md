@@ -26,7 +26,7 @@ See the [data dictionary](docs/data-dictionary.csv) for a complete description o
 - Sentinels Website: https://sentinels.hakai.org/
 - Pacific Northwest Crab Research Group (PCRG) website: https://www.pnwcrab.com/
 - Protocol:
-  - [2024 Light Trap Protocols](docs/2024%20Light%20Trap%20Protocols.pdf)
+  - [2024 Light Trap Protocols](docs/Protocols/2024%20Light%20Trap%20Protocols.pdf)
 - Annual reports:
   - [2022 Sentinels of Change Light Trap Report](docs/Reports/2022%20Sentinels%20of%20Change%20Light%20Trap%20Report.pdf)
   - [2023 Sentinels of Change Light Trap Report](docs/Reports/2023%20Sentinels%20of%20Change%20Light%20Trap%20Report.pdf)
