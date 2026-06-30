@@ -70,19 +70,8 @@ counts_raw <- merge(counts_all,stations,by=c("Site"))
 
 # These can be assigned using code Assign_QAQC.R before importing here
 
-# For annual reports and Hakai Data Catalogue, remove all MET, DNF, ERR, & INC
-# entries:
-counts_QC <- counts_raw %>%  filter(Error_Code== "None" | Error_Code== "HRS" 
-                                        | Error_Code == "BAT")
-
-
-
-##Create dataframe w/ removed entries to keep track
-counts_removed <- counts_raw %>% filter (Error_Code =="DNF" | 
-                                            Error_Code =="MET" |
-                                            Error_Code == "ERR" | 
-                                            Error_Code == "INC")
-
+# Create a version that excludes entries with error codes:
+counts_QC <- counts_raw %>%  filter(Error_Code== "None")
 
 #====FORMATED MEASUREMENT DATA =================================================
 
@@ -101,8 +90,8 @@ measurements_all <- rbind(measurements23, measurements24, measurements25)
 #==== MASTER Datasets for Internal GITHUB ======================================
 
 ####COUNTS#####
-# Select columns for dataframe that will be on internal github
-counts_master <- counts_QC %>%
+# Select columns for dataframes that will be on internal github
+counts_QC <- counts_QC %>%
  dplyr:: select(Code, Site, lat, lon, Year, Month, Date, 
          Nights_Fished, Hours_Fished, Weather, Subsample, 
          Metacarcinus_magister_megalopae,
@@ -123,10 +112,7 @@ counts_raw <- counts_raw %>%
 write_csv(counts_raw, "data/Master_raw_LightTrap_Counts.csv")
 
 ##create master csv filtered by QC codes
-write_csv(counts_master, "data/Master_QAQC_LightTrap_Counts.csv")
-
-##create csv of removed entries from QC codes
-write_csv(counts_removed, "data/Master_Removed_Counts.csv")
+write_csv(counts_QC, "data/Master_QAQC_LightTrap_Counts.csv")
 
 #####MEASUREMENTS#####
 write_csv(measurements_all, "data/Master_QAQC_Carapace_Width_Measurements.csv")
@@ -135,14 +121,7 @@ write_csv(measurements_all, "data/Master_QAQC_Carapace_Width_Measurements.csv")
 #===== MASTER Datasets for PUBLIC GITHUB =======================================
 
 #####COUNTS#####
-
-##Remove sites requiring further permissions and with incomplete data
-counts_master_p <- counts_master %>%
-  dplyr::filter(Code != "PRP" & Code != "PDH" & Code != "POW"
-          & Code != "BOO" & Code != "LYA" & Code != "WIN" & Code != "PRI" & Code != "MAS")
-
-
-write_csv(counts_master_p, "data/Master_QAQC_LightTrap_Counts_publicrepository.csv")
+write_csv(counts_raw, "data/Master_QAQC_LightTrap_Counts_publicrepository.csv")
 
 #####MEASUREMENTS#####
 
