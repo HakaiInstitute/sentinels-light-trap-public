@@ -121,7 +121,7 @@ write_csv(measurements_all, "data/Master_QAQC_Carapace_Width_Measurements.csv")
 #===== MASTER Datasets for PUBLIC GITHUB =======================================
 
 #####COUNTS#####
-write_csv(counts_raw, "data/Master_QAQC_LightTrap_Counts_publicrepository.csv")
+write_csv(counts_QC, "data/Master_QAQC_LightTrap_Counts_publicrepository.csv")
 
 #####MEASUREMENTS#####
 
