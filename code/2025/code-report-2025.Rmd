@@ -1,0 +1,721 @@
+---
+title: "Sentinels Light Trap – 2025 Annual Report"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+knitr::opts_knit$set(root.dir = "../../")
+library(tidyverse)
+library(lubridate)
+library(cowplot)
+library(patchwork)
+library(sf)
+library(ggforce)
+library(forcats)
+library(gridExtra)
+library(grid)
+library(viridisLite)
+```
+
+```{r load_counts_data, include=FALSE}
+counts <- read.csv("data/Master_QAQC_LightTrap_Counts.csv") %>%
+  filter(!Code %in% c("KLE", "BLU", "TAK", "HOT")) %>% #filter out sites that have never had a complete season of data collection
+  filter(!Month %in% c("Sep", "Oct"))
+
+counts$Site[counts$Site == "Pacific Science Enterprise Centre"] <- "DFO PSEC"
+counts$Site[counts$Site == "Pacific Biological Station"]        <- "DFO PBS"
+counts$Site[counts$Site == "Institute of Ocean Sciences"]       <- "DFO IOS"
+counts$Site[counts$Site == "Victoria Inner Harbour"]            <- "Victoria"
+
+counts$Date   <- ymd(counts$Date)
+counts$Year   <- factor(counts$Year)
+counts$week   <- week(counts$Date)
+counts$day_month <- format(counts$Date, "%m-%d")
+counts$loc.lat <- factor(counts$Site,
+                         levels = unique(counts$Site[order(counts$lat, decreasing = TRUE)]))
+
+# Year totals (daily CPUE and catch across all sites)
+make_total <- function(yr) {
+  counts %>%
+    filter(Year == yr) %>%
+    group_by(Date, Year, week) %>%
+    summarize(CPUE.total  = sum(CPUE_Hour,     na.rm = TRUE),
+              count.total = sum(TotalMmagister, na.rm = TRUE),
+              .groups = "drop")
+}
+
+total2022 <- make_total(2022)
+total2023 <- make_total(2023)
+total2024 <- make_total(2024)
+total2025 <- make_total(2025)
+
+total <- bind_rows(total2022, total2023, total2024, total2025)
+total$month_day <- format(total$Date, "%m-%d")
+
+# Weekly background line used in faceted CPUE plots
+total_week2025 <- counts %>%
+  filter(Year == 2025) %>%
+  group_by(Date, week) %>%
+  summarize(CPUE.total = sum(CPUE_Hour, na.rm = TRUE), .groups = "drop") %>%
+  group_by(week) %>%
+  summarize(CPUE.week = mean(CPUE.total, na.rm = TRUE), .groups = "drop") %>%
+  left_join(total2025, ., by = "week")
+
+# Year colours used across multiple figures
+year_colours <- c("2022" = "#ff5a5e", "2023" = "#c31e23", "2024" = "#99c6cc", "2025" = "#0d7d87")
+```
+
+```{r load_map_data, include=FALSE}
+counts_map <- read_csv("data/Master_QAQC_LightTrap_Counts.csv") %>%
+  dplyr::select(Year, Date, Code, Site, lat, lon, CPUE_Hour) %>%
+  filter(!Code %in% c("KLE", "BLU", "TAK")) %>%
+  mutate(Month = format(as.Date(Date), "%B"))
+
+CPUE.bymonth.mean <- aggregate(CPUE_Hour ~ Site + lat + lon + Year + Month,
+                               counts_map, mean)
+CPUE.bymonth.mean$Month <- factor(CPUE.bymonth.mean$Month,
+                                  levels = c("March", "April", "May", "June",
+                                             "July", "August", "September", "October"))
+CPUE.bymonth.mean <- CPUE.bymonth.mean[order(CPUE.bymonth.mean$Month), ]
+colnames(CPUE.bymonth.mean)[6] <- "MeanCPUE"
+CPUE.bymonth.mean <- CPUE.bymonth.mean[
+  !CPUE.bymonth.mean$Month %in% c("March"), ]
+
+CPUE.bymonth.mean.nonzero <- CPUE.bymonth.mean[CPUE.bymonth.mean$MeanCPUE != 0, ]
+CPUE.bymonth.mean.zeros   <- CPUE.bymonth.mean[CPUE.bymonth.mean$MeanCPUE == 0, ]
+
+land  <- st_read("shapefiles/Grey_WA_OR.shp") %>% st_transform(crs = 4326)
+water <- st_read("shapefiles/NW_Marine.shp")  %>% st_transform(crs = 4326)
+```
+
+```{r load_temp_data, include=FALSE}
+Data_temp <- read.csv("data/Master_QAQC_LightTrap_Counts.csv")
+Data_temp$Date <- as.Date(Data_temp$Date, "%Y-%m-%d")
+Data_temp$Year <- as.numeric(format(Data_temp$Date, "%Y"))
+Data_temp$Site[Data_temp$Site == "Pacific Biological Station"] <- "PBS"
+Data_temp$Site[Data_temp$Site == "Comox Marina"]               <- "Comox"
+Data_temp$Site[Data_temp$Site == "Campbell River Aquarium"]    <- "Campbell River"
+Data_temp$Site[Data_temp$Site == "Victoria Inner Harbour"]     <- "Victoria"
+Data_temp$Site[Data_temp$Site == "Saltspring Island"]          <- "Salt Spring"
+CPUE.25 <- Data_temp[Data_temp$Year == 2025, ]
+
+cleantemp <- function(f) {
+  temp <- read.csv(paste0("data/HOBO_Data/2025/", f))
+  if (ncol(temp) == 5) temp <- temp[, 1:4]
+  if ("Temp_F" %in% colnames(temp)) temp$Temp_F <- (temp$Temp_F - 32) * (5 / 9)
+  colnames(temp) <- c("Site", "Date", "Time", "Temp_C")
+  temp
+}
+
+temp.data <- list.files("data/HOBO_Data/2025", pattern = "*.csv") %>%
+  lapply(cleantemp) %>%
+  bind_rows() %>%
+  filter(Site != "")
+
+temp.data$DateTime_GMT.08.00 <- as.POSIXct(
+  paste(temp.data$Date, temp.data$Time), tz = "GMT", format = "%Y-%m-%d %H:%M:%S"
+)
+
+temp.agg2 <- aggregate(Temp_C ~ Date + Site, temp.data, mean)
+temp.CPUE  <- merge(CPUE.25[, c(1, 2, 7, 16)], temp.agg2, by = c("Date", "Site"))
+temp.CPUE$logplus1_CPUE <- log(temp.CPUE$CPUE_Hour + 1)
+
+temp.agg <- aggregate(Temp_C ~ Date, temp.data,
+                      FUN = function(x) c(Lower = quantile(x, .25), Upper = quantile(x, .75)))
+temp.agg <- do.call(data.frame, temp.agg)
+colnames(temp.agg) <- c("Date", "Lower", "Upper")
+temp.agg$Fill_code <- "Interquartile Range (all sites)"
+
+daily.agg <- aggregate(Temp_C ~ Date + Site, temp.data,
+                       FUN = function(x) c(Min = min(x), Mean = mean(x), Max = max(x)))
+daily.agg <- do.call(data.frame, daily.agg)
+daily.agg$Line_code <- "Daily Maximum"
+
+site_levels <- c("Prince Rupert", "Masset", "Daajing Giids", "Echo Bay", "Quathiaski Cove",
+                 "Campbell River", "Comox", "Pender Harbour", "Baynes Sound", "Ford Cove",
+                 "Tofino", "Horseshoe Bay", "Port Moody", "PBS", "Heather Marina",
+                 "Indian Arm", "Descanso Bay", "Silva Bay", "Retreat Cove", "Whaler Bay",
+                 "Miners Bay", "Hope Bay", "Salt Spring", "Cowichan Bay",
+                 "James Isl. Pier", "Gorge", "Victoria", "Sooke")
+
+temp.data$Site <- factor(temp.data$Site, levels = site_levels)
+daily.agg$Site <- factor(daily.agg$Site, levels = site_levels)
+temp.data <- subset(temp.data, Date >= "2025-04-15" & Date <= "2025-08-31")
+daily.agg <- subset(daily.agg, Date >= "2025-04-15" & Date <= "2025-08-31")
+temp.agg  <- subset(temp.agg,  Date >= "2025-04-15" & Date <= "2025-08-31")
+daily.agg$Date <- as.Date(daily.agg$Date)
+temp.agg$Date  <- as.Date(temp.agg$Date)
+temp.CPUE$Site <- factor(temp.CPUE$Site, levels = site_levels)
+
+temp_colours <- c("#2b323f", "#2e4057", "#00798c", "#edae49", "#d1495b")
+```
+
+```{r load_sal_data, include=FALSE}
+counts_sal <- read.csv("data/Master_QAQC_LightTrap_Counts.csv") %>%
+  mutate(
+    Site = recode(Site,
+      "Pacific Science Enterprise Centre" = "DFO PSEC",
+      "Pacific Biological Station"        = "DFO PBS",
+      "Institute of Ocean Sciences"       = "DFO IOS",
+      "Victoria Inner Harbour"            = "Victoria",
+      "Comox Marina"                      = "Comox",
+      "Sooke Basin"                       = "Sooke"
+    ),
+    Date = ymd(Date),
+    Year = factor(Year),
+    week = week(ymd(Date))
+  ) %>%
+  filter(Year == "2025")
+
+salinity_daily   <- read.csv("data/2025/salinity_daily.csv") %>%
+  mutate(Date = ymd(Date))
+salinity_trimmed <- read.csv("data/2025/salinity_trimmed.csv") %>%
+  mutate(Date = ymd(Date))
+
+salCPUE <- merge(salinity_daily, counts_sal, by = c("Date", "Site"))
+
+sal.agg <- aggregate(Salinity ~ Date, salinity_trimmed,
+                     FUN = function(x) c(Lower = quantile(x, .25, na.rm = TRUE),
+                                         Upper = quantile(x, .75, na.rm = TRUE)))
+sal.agg <- do.call(data.frame, sal.agg)
+colnames(sal.agg) <- c("Date", "Lower", "Upper")
+sal.agg$Fill_code <- "Interquartile Range (all sites)"
+
+daily.agg.sal <- aggregate(Salinity ~ Date + Site, salinity_trimmed,
+                           FUN = function(x) c(Min  = min(x,  na.rm = TRUE),
+                                               Mean = mean(x, na.rm = TRUE),
+                                               Max  = max(x,  na.rm = TRUE)))
+daily.agg.sal <- do.call(data.frame, daily.agg.sal)
+daily.agg.sal$Line_code <- "Daily Maximum"
+daily.agg.sal$Site <- factor(daily.agg.sal$Site, levels = site_levels)
+
+salCPUE$Site <- factor(salCPUE$Site,
+                       levels = c("Prince Rupert", "Daajing Giids", "Echo Bay",
+                                  "Quathiaski Cove", "Comox", "Pender Harbour", "Ford Cove",
+                                  "Tofino", "Horseshoe Bay", "Port Moody", "Heather Marina",
+                                  "Indian Arm", "Descanso Bay", "Silva Bay", "Whaler Bay",
+                                  "Miners Bay", "Hope Bay", "Cowichan Bay", "Victoria", "Sooke"))
+
+sal_colours <- c("#ecc81b", "#ed9a2c", "#e98d38", "#dd6f4e",
+                 "#cd5561", "#a12188", "#7a1c9c", "#0c157e")
+```
+
+```{r load_timing_data, include=FALSE}
+# Unfiltered counts — timing plots need Sep/Oct and all sites
+counts_timing <- read.csv("data/Master_QAQC_LightTrap_Counts.csv")
+
+# Sites with >= 4 years of monitoring (excl. Retreat Cove)
+site_list <- counts_timing %>%
+  filter(Site != "Retreat Cove") %>%
+  group_by(Site) %>%
+  summarize(n_years = n_distinct(Year)) %>%
+  filter(n_years >= 4) %>%
+  pull(Site)
+
+# Multi-year timing summary
+timing_summ <- counts_timing %>%
+  filter(Site %in% site_list) %>%
+  group_by(Site, Year) %>%
+  summarise(
+    tot_dung       = sum(TotalMmagister, na.rm = TRUE),
+    first_detection = as.Date(min(ifelse(TotalMmagister > 0, Date, NA), na.rm = TRUE)),
+    last_detection  = as.Date(max(ifelse(TotalMmagister > 0, Date, NA), na.rm = TRUE)),
+    lat             = median(lat),
+    .groups = "drop"
+  ) %>%
+  arrange(desc(lat)) %>%
+  mutate(
+    first_detection_doy = lubridate::yday(first_detection),
+    last_detection_doy  = lubridate::yday(last_detection),
+    Site = factor(Site, levels = rev(c("Pender Harbour", "Ford Cove", "Horseshoe Bay",
+                                       "Pacific Biological Station", "Heather Marina",
+                                       "Descanso Bay", "Silva Bay", "Miners Bay",
+                                       "Hope Bay", "Cowichan Bay", "Whaler Bay"))),
+    Year = factor(Year, levels = sort(unique(Year)))
+  )
+
+# 2025 all-sites timing summary
+timing_2025_all <- counts_timing %>%
+  filter(Year == 2025) %>%
+  group_by(Site) %>%
+  summarise(
+    first_detection = suppressWarnings(min(Date[TotalMmagister > 0], na.rm = TRUE)),
+    last_detection  = suppressWarnings(max(Date[TotalMmagister > 0], na.rm = TRUE)),
+    lat             = median(lat),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    first_detection = ifelse(is.infinite(first_detection), NA, first_detection),
+    last_detection  = ifelse(is.infinite(last_detection),  NA, last_detection)
+  ) %>%
+  filter(!is.na(first_detection) & !is.na(last_detection)) %>%
+  arrange(desc(lat)) %>%
+  mutate(
+    first_detection_doy = lubridate::yday(first_detection),
+    last_detection_doy  = lubridate::yday(last_detection),
+    Site = factor(Site, levels = rev(Site))
+  )
+
+breaks_doy    <- c(1, 32, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335)
+labels_months <- month.abb
+
+colors7    <- viridis(length(site_list),                       begin = 0.2, end = 0.95, direction = -1, option = "A")
+colors_all <- viridis(length(unique(timing_2025_all$Site)),    begin = 0.2, end = 0.95, direction = -1, option = "A")
+```
+
+## Figure 2
+
+```{r delivery_barplot_2025_all_sites}
+timing_plot_2025_all <- ggplot(timing_2025_all) +
+  geom_linerange(
+    aes(x = Site, ymin = first_detection_doy, ymax = last_detection_doy),
+    size = 4, color = "#30106B"
+  ) +
+  geom_point(
+    data = filter(timing_2025_all, first_detection_doy == last_detection_doy),
+    aes(x = Site, y = first_detection_doy),
+    size = 4, color = "#30106B"
+  ) +
+  scale_y_continuous(breaks = breaks_doy, labels = labels_months) +
+  labs(title = "2025") +
+  theme_bw() +
+  theme(
+    legend.position    = "none",
+    axis.title         = element_blank(),
+    axis.text          = element_text(size = 11, color = "black"),
+    plot.title         = element_text(size = 16, face = "bold"),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor   = element_blank()
+  ) +
+  coord_flip()
+
+timing_plot_2025_all
+```
+
+## Figure 3
+
+```{r delivery_barplot_allyears}
+timing_plot <- ggplot(timing_summ) +
+  geom_linerange(
+    aes(x = Year, ymin = first_detection_doy, ymax = last_detection_doy, color = Site),
+    size = 4, position = position_dodge(1)
+  ) +
+  scale_y_continuous(breaks = breaks_doy, labels = labels_months) +
+  scale_color_manual(
+    breaks = c("Pender Harbour", "Ford Cove", "Horseshoe Bay",
+               "Pacific Biological Station", "Heather Marina", "Descanso Bay",
+               "Silva Bay", "Miners Bay", "Hope Bay", "Cowichan Bay", "Whaler Bay"),
+    values = colors7
+  ) +
+  labs(color = "Site") +
+  theme_bw() +
+  theme(
+    legend.position    = "right",
+    axis.title         = element_blank(),
+    axis.text          = element_text(size = 18, color = "black"),
+    legend.title       = element_text(size = 16),
+    legend.text        = element_text(size = 15),
+    strip.text         = element_blank(),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor   = element_blank()
+  ) +
+  coord_flip() +
+  facet_wrap(~ Year, scales = "free_y", ncol = 1)
+
+timing_plot
+```
+
+## Figure 4
+
+```{r total_allyears_25}
+TC2022 <- ggplot(subset(total, Year == "2022"), aes(Date, count.total)) +
+  geom_line(col = '#ff5a5e') + geom_point(size = 1, col = '#ff5a5e') +
+  ylab("Total Dungeness") + labs(title = "2022") + theme_bw()
+
+TC2023 <- ggplot(subset(total, Year == "2023"), aes(Date, count.total)) +
+  geom_line(col = '#c31e23') + geom_point(size = 1, col = '#c31e23') +
+  ylab("") + labs(title = "2023") + theme_bw()
+
+TC2024 <- ggplot(subset(total, Year == "2024"), aes(Date, count.total)) +
+  geom_line(col = '#99c6cc') + geom_point(size = 1, col = '#99c6cc') +
+  ylab("Total Dungeness") + labs(title = "2024") + theme_bw()
+
+TC2025 <- ggplot(subset(total, Year == "2025"), aes(Date, count.total)) +
+  geom_line(col = '#0d7d87') + geom_point(size = 1, col = '#0d7d87') +
+  ylab("") + labs(title = "2025") + theme_bw()
+
+TC_grid <- plot_grid(TC2022, TC2023, TC2024, TC2025)
+TC_grid
+```
+
+## Figure 5
+
+```{r CPUE_all_grid}
+CPUE2022 <- ggplot(subset(total, Year == "2022"), aes(Date, CPUE.total)) +
+  geom_line(col = '#ff5a5e') + geom_point(size = 1, col = '#ff5a5e') +
+  ylab("CPUE (crabs/hr)") + labs(title = "2022") + theme_bw()
+
+CPUE2023 <- ggplot(subset(total, Year == "2023"), aes(Date, CPUE.total)) +
+  geom_line(col = '#c31e23') + geom_point(size = 1, col = '#c31e23') +
+  ylab("") + labs(title = "2023") + theme_bw()
+
+CPUE2024 <- ggplot(subset(total, Year == "2024"), aes(Date, CPUE.total)) +
+  geom_line(col = '#99c6cc') + geom_point(size = 1, col = '#99c6cc') +
+  ylab("CPUE (crabs/hr)") + labs(title = "2024") + theme_bw()
+
+CPUE2025 <- ggplot(subset(total, Year == "2025"), aes(Date, CPUE.total)) +
+  geom_line(col = '#0d7d87') + geom_point(size = 1, col = '#0d7d87') +
+  ylab("") + labs(title = "2025") + theme_bw()
+
+CPUE_grid <- plot_grid(CPUE2022, CPUE2023, CPUE2024, CPUE2025)
+CPUE_grid
+```
+
+## Figure 6
+
+```{r CPUE_Hour_North_map}
+map_theme <- theme(
+  axis.text = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(),
+  panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+  strip.text.x = element_text(size = 12, face = "bold"),
+  strip.text.y = element_text(size = 12, face = "bold")
+)
+
+heatmap <- ggplot() +
+  theme_bw() +
+  geom_sf(data = water, fill = "paleturquoise3", color = "turquoise4") +
+  geom_sf(data = land,  fill = "grey96", color = NA) +
+  coord_sf(xlim = c(-133.5, -128.5), ylim = c(52, 54.50),
+           expand = FALSE, clip = "on", datum = NA) +
+  theme(aspect.ratio = 1.2) +
+  geom_point(data = filter(CPUE.bymonth.mean.nonzero, Year %in% 2023:2025, Month != "April"),
+             aes(x = lon, y = lat, size = MeanCPUE),
+             alpha = 0.7, color = "coral", stroke = 0.7) +
+  geom_point(data = filter(CPUE.bymonth.mean.zeros, Year %in% 2023:2025, Month != "April"),
+             aes(x = lon, y = lat, size = MeanCPUE),
+             alpha = 0.7, color = "gray25") +
+  scale_size_continuous(breaks = c(0, 25, 100, 200), name = "Mean CPUE", range = c(2.5, 15)) +
+  guides(size = guide_legend(
+    override.aes = list(color = c("gray25", "coral", "coral", "coral"), alpha = 0.6))) +
+  facet_grid(Year ~ Month) +
+  map_theme
+
+heatmap
+```
+
+## Figure 7
+
+```{r CPUE_Hour_South_map}
+heatmap_south <- ggplot() +
+  theme_bw() +
+  geom_sf(data = water, fill = "paleturquoise3", color = "turquoise4") +
+  geom_sf(data = land,  fill = "grey96", color = NA) +
+  coord_sf(xlim = c(-126.3, -122.3), ylim = c(48.3, 50.39)) +
+  geom_point(data = filter(CPUE.bymonth.mean.nonzero, Month != "October"),
+             aes(x = lon, y = lat, size = MeanCPUE),
+             alpha = 0.5, colour = "coral", stroke = 0.7) +
+  geom_point(data = filter(CPUE.bymonth.mean.zeros, Month != "October"),
+             aes(x = lon, y = lat, size = MeanCPUE),
+             alpha = 0.7, color = "gray25") +
+  scale_size_continuous(breaks = c(0, 100, 500, 1000), name = "Mean CPUE", range = c(2.5, 15)) +
+  guides(size = guide_legend(
+    override.aes = list(color = c("gray25", "coral", "coral", "coral"), alpha = 0.6), size = 12)) +
+  facet_grid(Year ~ Month) +
+  map_theme
+
+heatmap_south
+```
+
+## Figure 8
+
+```{r CPUE_facet2025}
+cpue_2025_site <- ggplot(subset(counts, Year == "2025"), aes(Date, CPUE_Hour)) +
+  facet_wrap(~ loc.lat) +
+  geom_line(data = total_week2025, aes(Date, CPUE.total), col = "gray", alpha = 0.75) +
+  geom_line() +
+  ylab("CPUE (crabs/hr)") + theme_bw()
+
+cpue_2025_site
+```
+
+## Figure 9
+
+```{r CPUE_facet_log2025}
+CPUE_log2025 <- ggplot(subset(counts, Year == "2025"), aes(Date, CPUE_Hour + 0.01)) +
+  facet_wrap(~ loc.lat) +
+  geom_line(data = total_week2025, aes(Date, CPUE.total), col = "gray", alpha = 0.75) +
+  geom_line() +
+  ylab("log(CPUE (crabs/hr))") + scale_y_log10() + theme_bw()
+
+CPUE_log2025
+```
+
+## Figure 10
+
+```{r SGI_CPUE_ALL}
+sgi_sites   <- c("Hope Bay", "Miners Bay", "Retreat Cove", "Whaler Bay", "Saltspring Island")
+sgi_colours <- c("Hope Bay" = "#CC79A7", "Miners Bay" = "#56B4E9", "Retreat Cove" = "#E69F00",
+                 "Whaler Bay" = "#009E73", "Saltspring Island" = "magenta")
+
+sgi_cpue <- function(yr)
+  ggplot(filter(counts, Year == yr & Site %in% sgi_sites),
+         aes(Date, CPUE_Hour, colour = Site)) +
+    geom_line(linewidth = 1) + scale_colour_manual(values = sgi_colours) +
+    ylab("CPUE (crabs per hour)") + labs(title = yr) + theme_bw()
+
+SGI_2023_CPUE <- sgi_cpue(2023)
+SGI_2024_CPUE <- sgi_cpue(2024)
+SGI_2025_CPUE <- sgi_cpue(2025)
+
+SGI_2023_CPUE / SGI_2024_CPUE / SGI_2025_CPUE
+```
+
+## Figure 11
+
+```{r South_VanIsle_CPUE_ALL}
+south_vanisle_sites   <- c("Cowichan Bay", "James Island Pier", "Sooke Basin", "Victoria")
+south_vanisle_colours <- c("Cowichan Bay" = "#009E73", "James Island Pier" = "#CC79A7", "Sooke Basin" = "#30106B",
+                 "Victoria" = "#E69F00")
+
+south_vanisle_cpue <- function(yr)
+  ggplot(filter(counts, Year == yr & Site %in% south_vanisle_sites),
+         aes(Date, CPUE_Hour, colour = Site)) +
+    geom_line(linewidth = 1) + scale_colour_manual(values = south_vanisle_colours) +
+    ylab("CPUE (crabs per hour)") + labs(title = yr) + theme_bw()
+
+South_VanIsle_2023_CPUE <- south_vanisle_cpue(2023)
+South_VanIsle_2024_CPUE <- south_vanisle_cpue(2024)
+South_VanIsle_2025_CPUE <- south_vanisle_cpue(2025)
+
+South_VanIsle_2023_CPUE / South_VanIsle_2024_CPUE / South_VanIsle_2025_CPUE
+```
+
+## Figure 12
+
+```{r meg_instar_Tofino24_25}
+meg_instar_colours <- c("Megalopae" = "#8da0cb", "Juvenile Instars" = "magenta")
+
+meg_instar_plot <- function(yr)
+  ggplot(filter(counts, Year == yr, Site == "Tofino"), aes(Date)) +
+    geom_line(aes(y = Metacarcinus_magister_megalopae, colour = "Megalopae"),    linewidth = 1) +
+    geom_line(aes(y = Metacarcinus_magister_instar,    colour = "Juvenile Instars"), linewidth = 1) +
+    scale_colour_manual(values = meg_instar_colours) +
+    ylab("Total Catch") + labs(title = yr, colour = "") + theme_bw()
+
+meginst24_Tofino <- meg_instar_plot(2024)
+meginst25_Tofino <- meg_instar_plot(2025)
+
+meginst24_Tofino / meginst25_Tofino
+```
+
+## Figure 13
+
+```{r mainland_CPUE_ALL}
+mainland_sites_2023_24 <- c("Horseshoe Bay", "Indian Arm", "Heather Marina", "Port Moody", "DFO PSEC")
+mainland_sites_2025    <- c("Horseshoe Bay", "Indian Arm", "Heather Marina", "Port Moody")
+mainland_colours <- c("Horseshoe Bay" = "#CC79A7", "Indian Arm" = "#56B4E9",
+                      "Heather Marina" = "#E69F00", "Port Moody" = "#009E73", "DFO PSEC" = "magenta")
+
+mainland_2023_CPUE <- ggplot(filter(counts, Year == 2023 & Site %in% mainland_sites_2023_24),
+                             aes(Date, CPUE_Hour, colour = Site)) +
+  geom_line(linewidth = 1) + scale_colour_manual(values = mainland_colours) +
+  ylab("CPUE (crabs per hour)") + labs(title = "2023") + theme_bw()
+
+mainland_2024_CPUE <- ggplot(filter(counts, Year == 2024 & Site %in% mainland_sites_2023_24),
+                             aes(Date, CPUE_Hour, colour = Site)) +
+  geom_line(linewidth = 1) + scale_colour_manual(values = mainland_colours) +
+  ylab("CPUE (crabs per hour)") + labs(title = "2024") + theme_bw()
+
+mainland_2025_CPUE <- ggplot(filter(counts, Year == 2025 & Site %in% mainland_sites_2025),
+                             aes(Date, CPUE_Hour, colour = Site)) +
+  geom_line(linewidth = 1) + scale_colour_manual(values = mainland_colours) +
+  ylab("CPUE (crabs per hour)") + labs(title = "2025") + theme_bw()
+
+mainland_2023_CPUE / mainland_2024_CPUE / mainland_2025_CPUE
+```
+
+## Figure 14
+
+```{r HoweSound_CPUE_ALL}
+howe_sites   <- c("Horseshoe Bay", "Gibsons Harbour")
+howe_colours <- c("Horseshoe Bay" = "#56B4E9", "Gibsons Harbour" = "#E69F00")
+
+howe_cpue <- function(yr)
+  ggplot(filter(counts, Year == yr & Site %in% howe_sites),
+         aes(Date, CPUE_Hour, colour = Site)) +
+    geom_line(linewidth = 1) + scale_colour_manual(values = howe_colours) +
+    ylab("CPUE (crabs per hour)") + labs(title = yr) + theme_bw()
+
+HoweSound_2023_CPUE <- howe_cpue(2023)
+HoweSound_2025_CPUE <- howe_cpue(2025)
+
+HoweSound_2023_CPUE / HoweSound_2025_CPUE
+```
+
+## Figure 15
+
+```{r Sunshine_Coast_CPUE_ALL}
+sunshine_sites   <- c("Pender Harbour", "Gibsons Harbour")
+sunshine_colours <- c("Pender Harbour" = "#56B4E9", "Gibsons Harbour" = "#E69F00")
+
+sunshine_cpue <- function(yr)
+  ggplot(filter(counts, Year == yr & Site %in% sunshine_sites),
+         aes(Date, CPUE_Hour, colour = Site)) +
+    geom_line(linewidth = 1) + scale_colour_manual(values = sunshine_colours) +
+    ylab("CPUE (crabs per hour)") + labs(title = yr) + theme_bw()
+
+Sunshine_Coast_2023_CPUE <- sunshine_cpue(2023)
+Sunshine_Coast_2024_CPUE <- sunshine_cpue(2024)
+Sunshine_Coast_2025_CPUE <- sunshine_cpue(2025)
+
+Sunshine_Coast_2023_CPUE / Sunshine_Coast_2024_CPUE / Sunshine_Coast_2025_CPUE
+```
+
+## Figure 16
+
+```{r East_VanIsle_CPUE_ALL}
+east_vi_sites   <- c("Comox Marina", "Ford Cove", "Denman Island", "DFO PBS", "Silva Bay", "Descanso Bay")
+east_vi_colours <- c("Comox Marina" = "#009E96", "Ford Cove" = "#1F3B73", "Denman Island" = "#E69F00",
+                     "DFO PBS" = "#CC79A7", "Silva Bay" = "#D55E00", "Descanso Bay" = "#009900")
+
+east_vi_cpue <- function(yr)
+  ggplot(filter(counts, Year == yr & Site %in% east_vi_sites),
+         aes(Date, CPUE_Hour, colour = Site)) +
+    geom_line(linewidth = 1) + scale_colour_manual(values = east_vi_colours) +
+    ylab("CPUE (crabs per hour)") + labs(title = yr) + theme_bw()
+
+East_VI_CPUE23 <- east_vi_cpue(2023)
+East_VI_CPUE24 <- east_vi_cpue(2024)
+East_VI_CPUE25 <- east_vi_cpue(2025)
+
+East_VI_CPUE23 / East_VI_CPUE24 / East_VI_CPUE25
+```
+
+## Figure 17
+
+```{r north_SS_2425_CPUE}
+north_SS_sites   <- c("Campbell River Aquarium", "Quathiaski Cove", "Echo Bay")
+north_SS_colours <- c("Campbell River Aquarium" = "#009E96",
+                      "Quathiaski Cove" = "#1F3B73", "Echo Bay" = "#E69F00")
+
+north_SS_cpue <- function(yr)
+  ggplot(filter(counts, Year == yr & Site %in% north_SS_sites),
+         aes(Date, CPUE_Hour, colour = Site)) +
+    geom_line(linewidth = 1) + scale_colour_manual(values = north_SS_colours) +
+    ylab("CPUE (crabs per hour)") + labs(title = yr) + theme_bw()
+
+north_SS_2024_CPUE <- north_SS_cpue(2024)
+north_SS_2025_CPUE <- north_SS_cpue(2025)
+
+north_SS_2024_CPUE / north_SS_2025_CPUE
+```
+
+## Figure 18
+
+```{r northern_total_25_CPUE}
+# Reload without Sep/Oct filter — northern sites monitor into October
+counts_north <- read.csv("data/Master_QAQC_LightTrap_Counts.csv") %>%
+  filter(!Code %in% c("KLE", "BLU", "TAK", "HOT"),
+         Year == 2025,
+         Site %in% c("Masset", "Daajing Giids", "Prince Rupert")) %>%
+  mutate(Date = ymd(Date))
+
+northern_2025_CPUE <- ggplot(counts_north, aes(Date, CPUE_Hour, colour = Site)) +
+  geom_line(linewidth = 1) +
+  scale_colour_manual(values = c("Masset"        = "#009E96",
+                                 "Daajing Giids" = "#1F3B73",
+                                 "Prince Rupert" = "#E69F00")) +
+  ylab("CPUE (crabs per hour)") + theme_bw()
+
+northern_2025_CPUE
+```
+
+## Figure 19
+
+```{r tempplot2025}
+temp.plot2 <- ggplot(daily.agg) +
+  geom_ribbon(data = temp.agg, aes(Date, ymin = Lower, ymax = Upper, fill = Fill_code)) +
+  geom_line(aes(Date, Temp_C.Max, linetype = Line_code), alpha = 0.4, linewidth = 0.3) +
+  geom_line(aes(Date, Temp_C.Mean, color = Temp_C.Mean), linewidth = 1) +
+  scale_color_gradientn(colors = temp_colours, name = "Daily Mean") +
+  scale_linetype_manual(values = "solid", name = NULL) +
+  scale_fill_manual(values = "grey", name = NULL) +
+  facet_wrap(~Site) + theme_bw() +
+  labs(x = NULL, y = "Temperature (°C)") + theme(panel.grid = element_blank())
+
+temp.plot2
+```
+
+## Figure 20
+
+```{r cpuetempplot2025}
+CPUE.temp.plot <- ggplot(subset(temp.CPUE, Site %in% levels(temp.CPUE$Site)),
+                         aes(Date, CPUE_Hour, color = Temp_C)) +
+  geom_line(size = 1) +
+  scale_color_gradientn(colors = temp_colours, name = "Temp (°C)") +
+  theme_bw() + labs(x = NULL, y = "CPUE (crab/hour)") +
+  theme(panel.grid = element_blank(), legend.justification = c(0, 0.5),
+        legend.direction = "vertical") +
+  facet_wrap(~Site, scales = "free_y")
+
+CPUE.temp.plot
+```
+
+## Figure 21
+
+```{r salinityplot2025}
+sal.plot <- ggplot(daily.agg.sal) +
+  geom_ribbon(data = sal.agg, aes(Date, ymin = Lower, ymax = Upper, fill = Fill_code)) +
+  geom_line(aes(Date, Salinity.Max, linetype = Line_code), alpha = 0.4, linewidth = 0.3) +
+  geom_line(aes(Date, Salinity.Mean, color = Salinity.Mean), linewidth = 1) +
+  scale_color_gradientn(colors = sal_colours, name = "Daily Mean Salinity") +
+  scale_linetype_manual(values = "solid", name = NULL) +
+  scale_fill_manual(values = "grey80", name = NULL) +
+  facet_wrap(~Site) + theme_bw() +
+  labs(x = NULL, y = "Salinity (PSU)") + theme(panel.grid = element_blank())
+
+sal.plot
+```
+
+## Figure 22
+
+```{r rainsalinity_indianarm}
+rain_indian_arm <- read.csv("data/2025/portmoody_precip.csv") %>%
+  select(Station.Name, Date, total_precip_mm) %>%
+  mutate(Date = ymd(Date))
+
+sal_rain_ind <- daily.agg.sal %>%
+  filter(Site == "Indian Arm") %>%
+  select(Date, Salinity.Mean) %>%
+  merge(rain_indian_arm, by = "Date", all = TRUE)
+
+salrain_ind <- ggplot(sal_rain_ind, aes(Date)) +
+  geom_line(aes(y = Salinity.Mean, color = "Salinity (PSU)"), size = 1) +
+  geom_bar(aes(y = total_precip_mm / 5, fill = "Rainfall (mm)"),
+           stat = "identity", alpha = 0.5) +
+  scale_y_continuous(name = "Salinity (PSU)",
+                     sec.axis = sec_axis(~. * 5, name = "Daily Rainfall (mm)")) +
+  scale_color_manual(values = c("Salinity (PSU)" = "#0c157e")) +
+  scale_fill_manual(values = c("Rainfall (mm)" = "#2e4057")) +
+  theme_bw() +
+  labs(title = "Indian Arm: Daily Mean Salinity vs Rainfall (2025)", x = "Date") +
+  theme(panel.grid = element_blank(), legend.position = "bottom",
+        legend.title = element_blank())
+
+salrain_ind
+```
+
+## Figure 23
+
+```{r cpuesalinityplot2025}
+CPUE.sal.plot <- ggplot(salCPUE, aes(Date, CPUE_Hour, color = Salinity)) +
+  geom_line(size = 1) +
+  scale_color_gradientn(colors = sal_colours, name = "Salinity (PSU)") +
+  theme_bw() + labs(x = NULL, y = "CPUE (crabs per hour)") +
+  theme(panel.grid = element_blank(), legend.justification = c(0, 0.5),
+        legend.direction = "vertical") +
+  facet_wrap(~Site, scales = "free_y")
+
+CPUE.sal.plot
+```
