@@ -71,7 +71,7 @@ counts_raw <- merge(counts_all,stations,by=c("Site"))
 # These can be assigned using code Assign_QAQC.R before importing here
 
 # Create a version that excludes entries with error codes:
-counts_QC <- counts_raw %>%  filter(Error_Code== "None", Error_Code=="HRS")
+counts_QC <- counts_raw %>%  filter(Error_Code== "None" | Error_Code=="HRS")
 
 #====FORMATED MEASUREMENT DATA =================================================
 
