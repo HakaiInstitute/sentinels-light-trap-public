@@ -71,7 +71,7 @@ counts_raw <- merge(counts_all,stations,by=c("Site"))
 # These can be assigned using code Assign_QAQC.R before importing here
 
 # Create a version that excludes entries with error codes:
-counts_QC <- counts_raw %>%  filter(Error_Code== "None")
+counts_QC <- counts_raw %>%  filter(Error_Code== "None", Error_Code=="HRS")
 
 #====FORMATED MEASUREMENT DATA =================================================
 
@@ -84,7 +84,7 @@ measurements24 <- select(measurements24, -submission_id, -measured_by,
 measurements25 <- read_csv("data/2025/2025_Megalopae_Carapace_Widths.csv")
 
 #combine years
-measurements_all <- rbind(measurements23, measurements24, measurements25)
+measurements_all <- rbind(measurements23, measurements24)
 
 
 #==== MASTER Datasets for Internal GITHUB ======================================
@@ -99,6 +99,7 @@ counts_QC <- counts_QC %>%
          TotalMmagister = TotalMmagister, 
          CPUE_Night, CPUE_Hour, Error_Code)
 
+#Select columns for dataframe that will be on public github
 counts_raw <- counts_raw %>%
   dplyr:: select(Code, Site, lat, lon, Year, Month, Date, 
                  Nights_Fished, Hours_Fished, Weather, Subsample, 
@@ -121,13 +122,13 @@ write_csv(measurements_all, "data/Master_QAQC_Carapace_Width_Measurements.csv")
 #===== MASTER Datasets for PUBLIC GITHUB =======================================
 
 #####COUNTS#####
-write_csv(counts_QC, "data/Master_QAQC_LightTrap_Counts_publicrepository.csv")
+write_csv(counts_raw, "data/Master_QAQC_LightTrap_Counts_publicrepository.csv")
 
 #####MEASUREMENTS#####
 
 ##Remove sites requiring further permissions and with incomplete data
 measurements_all <- measurements_all %>%
-  dplyr::filter(site != "Pender Harbour" & site != "Sechelt Inlet" & site != 
+  dplyr::filter(site != "Sechelt Inlet" & site != 
                   "Powell River" & site != "Boot Cove" & site != "Lyall Harbour"
                 & site != "Winter Cove")
 
