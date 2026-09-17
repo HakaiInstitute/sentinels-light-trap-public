@@ -1,0 +1,55 @@
+CHANGELOG
+
+All notable changes to this repository since the v1.0 release
+(https://github.com/HakaiInstitute/sentinels-light-trap-public/releases/tag/v1.0)
+are documented in this file.
+
+## v1.1 (2026-09-17)
+
+### Added
+- 2024 and 2025 sampling seasons added throughout the repository: light trap
+  count data, carapace width measurements, station visit metadata, and the
+  associated OBIS-formatted exports.
+- New station-level environmental data: temperature/HOBO logger data for
+  2024 and 2025 (data/HOBO_Data/2024, data/HOBO_Data/2025) and daily/trimmed
+  salinity data for 2025 (data/2025/salinity_daily.csv,
+  data/2025/salinity_trimmed.csv).
+- New shapefiles for regional mapping (shapefiles/Grey_WA_OR.shp,
+  shapefiles/NW_Marine.shp).
+- New annual report R Markdown scripts (code/2024/code-report-2024.Rmd,
+  code/2025/code-report-2025.Rmd) and the corresponding published 2024 and
+  2025 "Sentinels of Change Light Trap Report" PDFs (docs/Reports).
+- New Calvert Island (CAL) sampling station added to data/Master_Stations.csv.
+- Region and trap_checks2025/trap_checks2026 columns added to
+  data/Master_Stations.csv.
+- Acknowledgements section added to README.md, crediting all partner
+  and volunteer organizations.
+- New OBIS exports for the 2025 season.
+
+### Changed
+- data/Master_Stations.csv: Lat/Lon columns renamed to lowercase lat/lon for
+  consistency with downstream scripts.
+- code/Merge&QC_Code.R:
+  - Now reads and merges 2025 count and measurement data alongside prior years.
+  - Public count dataset (Master_QAQC_LightTrap_Counts_publicrepository.csv)
+    is no longer restricted to a subset of error codes or a subset of
+    approved stations before publication.
+  - Carapace width measurements public dataset no longer excludes the
+    Pender Harbour site, and fixes the "Winter Cove" site name (previously
+    "Winter").
+- code/sentinels-light-trap-datawrangle.R: Reworked to build and validate the
+  Darwin Core (OBIS) dataset using the Hakai Institute's new `biocleanr`
+  package; the previously separate resourceRelationship extension has been removed as part of this simplification.
+- obis/: SOC_emof.csv, SOC_event.csv, and SOC_occ.csv exports moved to obis/archived/ and superseded by year-specific exports
+  (e.g. obis/SOC_emof_2025.csv).
+- README.md: Reports section updated to link to the reorganized
+  docs/Reports folder and to include the new 2024 and 2025 reports.
+
+### Removed
+- obis/SOC_occ.csv, obis/SOC_event.csv, obis/SOC_emof.csv removed from the
+  top level of obis/ (retained under obis/archived/, see "Changed" above).
+
+## v1.0 (2024-11-25)
+
+### Added
+- Initial release of the public-facing Sentinels of Change Light Trap data package.
