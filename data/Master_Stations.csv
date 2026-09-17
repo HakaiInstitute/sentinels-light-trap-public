@@ -1,52 +1,56 @@
-﻿Code,Region,Site,Organization,lat,lon,mgmt_area,trap_checks2022,trap_checks2023,trap_checks2024,trap_checks2025,active_2025,Comment
-ALB,BC,Alberni Inlet,Fisheries and Oceans Canada,49.231972,-124.81451,E,0,50,55,0,N,2024 last year of sampling
-BAM,BC,Bamfield,Bamfield Marine Sciences Centre,48.834409,-125.13689,E,0,61,0,0,N,
-BLU,BC,Blunden Harbour,Gwa'sala-'Nakwaxda'xw Nation Guardians,50.908664,-127.28831,G,0,0,0,0,N,
-BOO,BC,Boot Cove,Community Member,48.796,-123.179,H,25,0,0,0,N,Moved from winter cove to here July 2022
-CAM,BC,Campbell River Aquarium,Campbell River Aquarium,50.021321,-125.23547,G,0,54,63,63,Y,
-COM,BC,Comox Marina,Hakai Institute and Comox Valley Community,49.669869,-124.93214,H,0,0,70,71,Y,
-COS,BC,Cortes Bay,Friends of Cortes Island Society,50.06104,-124.92954,G,54,71,58,0,N,2024 last year of sampling
-COW,BC,Cowichan Bay,Cowichan Estuary Restoration & Conservation Association,48.743411,-123.62797,H,38,55,57,57,Y,
-DAA,BC,Daajing Giids,Council of the Haida Nation,53.252061,-132.07252,A,0,0,49,,Y,
-DEN,BC,Denman Island,Association for Denman Island Marine Stewards,49.53396,-124.82183,H,0,55,32,35,Y,
-DES,BC,Descanso Bay,Gabriola Island Community,49.177887,-123.85815,H,63,72,73,74,Y,
-ECH,BC,Echo Bay,Salmon Coast Field Station,50.745688,-126.499202,,0,0,0,84,Y,
-FAL,BC,False Bay,Lasqueti Island Nature Conservancy,49.486124,-124.35905,H,60,86,0,0,N,2023 last year of sampling
-FOR,BC,Ford Cove,"Hornby Island Diving, Conservancy Hornby Island, Hornby Island Natural History Centre",49.497028,-124.67667,H,58,43,62,56,Y,
-GIB,BC,Gibsons Harbour,Nicholas Sonntag Marine Education Centre,49.40093,-123.50431,I,0,64,0,54,Y,
-GOR,BC,Victoria Gorge,"Ministry of Water, Land and Resource Stewardship",48.439468,-123.37984,H,0,0,45,0,N,2024 only year of sampling
-HEA,BC,Heather Marina,False Creek Friends Society,49.269518,-123.12001,I,78,59,65,70,Y,
-HER,BC,Heriot Bay,Hakai Institute and Quadra Island Community,50.102299,-125.20164,G,60,61,0,0,N,moved to Q cove from here in 2024
-HOP,BC,Hope Bay,Pender Islands Conservancy,48.803253,-123.27521,H,35,53,50,63,Y,
-HOR,BC,Horseshoe Bay,Ocean Wise and Howe Sound Marine Stewardship Initiative,49.375655,-123.27313,I,67,63,64,68,Y,
-HOT,BC,Hotsprings Cove,Ha'oom Fisheries,49.369942,-126.2718,E,0,0,0,0,N,
-IND,BC,Indian Arm,Wigwam Inn,49.461387,-122.88625,I,0,64,63,65,Y,
-IOS,BC,Institute of Ocean Sciences,Fisheries and Oceans Canada,48.652354,-123.44967,H,55,0,0,0,N,2022 last year of sampling
-JAM,BC,James Island Pier,Tsawout First Nation Fisheries Department,48.598934,-123.38867,H,0,68,67,68,Y,
-KLE,BC,Klemtu,Kitasoo/Xai'Xais Stewardship Authority + SEAS Student Program,52.58725,-128.51837,B,0,0,0,0,N,
-LYA,BC,Lyall Harbour,Saturna Ecological Education Centre,48.798,-123.20032,H,0,13,0,0,N,Stopped sampling July 2023
-MAS,BC,Masset,Council of the Haida Nation,54.007618,-132.14171,A,0,0,12,,Y,stopped sampling mid June 2024
-MIN,BC,Miners Bay,Mayne Island Conservancy,48.852116,-123.30153,H,60,55,45,64,Y,
-OON,BC,Oona River,Oona River Hatchery,53.939258,-130.243046,,0,0,0,19,Y,
-PAC,BC,Pacific Science Enterprise Centre,Tsleil-Waututh Nation and Fisheries and Oceans Canada,49.340105,-123.23298,I,63,35,61,0,N,
-PBS,BC,Pacific Biological Station,Fisheries and Oceans Canada,49.210394,-123.95659,H,55,44,52,58,Y,
-PDH,BC,Pender Harbour,Pender Harbour Ocean Discovery Station,49.623357,-124.02568,G,92,82,68,59,Y,
-POW,BC,Powell River Marina,Powell River Volunteer,49.835512,-124.52978,G,0,25,0,0,N,2023 last year of sampling
-PRI,BC,Prince Rupert,Fisheries and Oceans Canada,54.319661,-130.3182,B,0,38,7,,Y,
-PMO,BC,Port Moody,Burrard Inlet Marine Enhancement Society,49.30056,-122.87578,,0,0,0,55,Y,
-PRP,BC,Porpoise Bay,shishalh First Nation Fisheries Technicians,49.484078,-123.76236,H,0,38,0,0,N,2023 last year of sampling
-PSJ,BC,Port of San Juan,Pacheedaht First Nation,48.563292,-124.42468,E,0,0,0,0,N,
-QUA,BC,Quathiaski Cove,Hakai Institute and Quadra Island Community,50.042604,-125.21604,G,0,0,60,72,Y,moved from Heriot Bay to here in 2024
-RET,BC,Retreat Cove,Galiano Conservation Association,48.940555,-123.50132,H,69,70,39,14,Y,
-SAL,BC,Saltspring Island,Saltspring Community,48.845178,-123.489863,,0,0,0,71,Y,
-SIL,BC,Silva Bay,Gabriola Power Squadron,49.149062,-123.69713,H,70,79,78,73,Y,
-SOO,BC,Sooke Basin,T'sou-ke Nation,48.37,-123.72722,E,0,19,31,45,Y,
-SUR,BC,Surge Narrows,Surge Narrows School,50.227191,-125.11224,G,41,24,0,0,N,2023 last year of sampling
-TAK,BC,Takush Harbour,Gwa'sala-'Nakwaxda'xw Nation Guardians,51.284665,-127.64141,G,0,0,0,0,N,
-TOF,BC,Tofino,Jamie's Whaling Station,49.151969,-125.89702,E,0,0,50,39,Y,
-WHA,BC,Whaler Bay,Institute for Multidisciplinary Ecological Research in the Salish Sea,48.884619,-123.32731,H,56,24,61,56,Y,
-WIN,BC,Winter Cove,Saturna Ecological Education Centre,48.809618,-123.1902,H,17,0,0,0,N,2022 only year of sampling
-VIC,BC,Victoria Inner Harbour,Gorge Waterways Action Society,48.42697,-123.38386,H,0,0,67,71,Y,
+﻿Code,Region,Site,Organization,lat,lon,mgmt_area,trap_checks2022,trap_checks2023,trap_checks2024,trap_checks2025,trap_checks2026,Comment
+ALB,BC,Alberni Inlet,Fisheries and Oceans Canada,49.231972,-124.81451,E,0,50,55,0,0,2024 last year of sampling
+BAM,BC,Bamfield,Bamfield Marine Sciences Centre,48.834409,-125.13689,E,0,61,0,0,0,
+BOO,BC,Boot Cove,Community Member,48.796,-123.179,H,25,0,0,0,0,Moved from winter cove to here July 2022
+CAL,BC,Calvert Island,Hakai Institute,51.65458,-128.129255,,0,0,0,0,79,
+CAM,BC,Campbell River Aquarium,Campbell River Aquarium,50.021321,-125.23547,G,0,54,63,63,55,
+COM,BC,Comox Marina,Hakai Institute and Comox Valley Community,49.669869,-124.93214,H,0,0,70,71,69,
+COS,BC,Cortes Bay,Friends of Cortes Island Society,50.06104,-124.92954,G,54,71,58,0,0,2024 last year of sampling
+COW,BC,Cowichan Bay,Cowichan Estuary Restoration & Conservation Association,48.743411,-123.62797,H,38,55,57,57,51,
+DAA,BC,Daajing Giids,Council of the Haida Nation,53.252061,-132.07252,A,0,0,49,,0,
+DEN,BC,Denman Island,Association for Denman Island Marine Stewards,49.53396,-124.82183,H,0,55,32,35,0,
+DES,BC,Descanso Bay,Gabriola Island Community,49.177887,-123.85815,H,63,72,73,74,77,
+ECH,BC,Echo Bay,Salmon Coast Field Station,50.745688,-126.499202,,0,0,0,84,68,
+FAL,BC,False Bay,Lasqueti Island Nature Conservancy,49.486124,-124.35905,H,60,86,0,0,0,2023 last year of sampling
+FOR,BC,Ford Cove,"Hornby Island Diving, Conservancy Hornby Island, Hornby Island Natural History Centre",49.497028,-124.67667,H,58,43,62,56,54,
+GIB,BC,Gibsons Harbour,Nicholas Sonntag Marine Education Centre,49.40093,-123.50431,I,0,64,0,54,0,
+GOR,BC,Victoria Gorge,"Ministry of Water, Land and Resource Stewardship",48.439468,-123.37984,H,0,0,45,0,0,2024 only year of sampling
+HEA,BC,Heather Marina,False Creek Friends Society,49.269518,-123.12001,I,78,59,65,70,48,
+HER,BC,Heriot Bay,Hakai Institute and Quadra Island Community,50.102299,-125.20164,G,60,61,0,0,0,moved to Q cove from here in 2024
+HOP,BC,Hope Bay,Pender Islands Conservancy,48.803253,-123.27521,H,35,53,50,63,52,
+HOR,BC,Horseshoe Bay,Ocean Wise and Howe Sound Marine Stewardship Initiative,49.375655,-123.27313,I,67,63,64,68,69,
+HOT,BC,Hotsprings Cove,Ha'oom Fisheries,49.369942,-126.2718,E,0,0,0,0,0,
+IND,BC,Indian Arm,Wigwam Inn,49.461387,-122.88625,I,0,64,63,65,57,
+IOS,BC,Institute of Ocean Sciences,Fisheries and Oceans Canada,48.652354,-123.44967,H,55,0,0,0,0,2022 last year of sampling
+JAM,BC,James Island Pier,Tsawout First Nation Fisheries Department,48.598934,-123.38867,H,0,68,67,68,63,
+KIT,BC,Kitkatla,Gitxaala Territorial Management Agency,53.79485,-130.44017,,0,0,0,0,9,
+KLE,BC,Klemtu,Kitasoo/Xai'Xais Stewardship Authority + SEAS Student Program,52.58725,-128.51837,B,0,0,0,0,0,
+LYA,BC,Lyall Harbour,Saturna Ecological Education Centre,48.798,-123.20032,H,0,13,0,0,0,Stopped sampling July 2023
+MAS,BC,Masset,Council of the Haida Nation,54.007618,-132.14171,A,0,0,12,,62,stopped sampling mid June 2024
+MIN,BC,Miners Bay,Mayne Island Conservancy,48.852116,-123.30153,H,60,55,45,64,51,
+NAN,BC,Nanoose Bay,Nanoose Bay Community,49.286203,-124.135312,,0,0,0,0,109,
+OON,BC,Oona River,Oona River Hatchery,53.939258,-130.243046,,0,0,0,19,0,
+PAC,BC,Pacific Science Enterprise Centre,Tsleil-Waututh Nation and Fisheries and Oceans Canada,49.340105,-123.23298,I,63,35,61,0,0,
+PBS,BC,Pacific Biological Station,Fisheries and Oceans Canada,49.210394,-123.95659,H,55,44,52,58,94,
+PDH,BC,Pender Harbour,Pender Harbour Ocean Discovery Station,49.623357,-124.02568,G,92,82,68,59,59,
+POW,BC,Powell River Marina,Powell River Volunteer,49.835512,-124.52978,G,0,25,0,0,0,2023 last year of sampling
+PRI,BC,Prince Rupert,Fisheries and Oceans Canada,54.319661,-130.3182,B,0,38,7,,58,
+PRN,BC,Prince Rupert North,Lax Kw'alaams First Nation,54.33341,-130.28313,,0,0,0,0,40,
+PMO,BC,Port Moody,Burrard Inlet Marine Enhancement Society,49.30056,-122.87578,,0,0,0,55,63,
+PRP,BC,Porpoise Bay,shishalh First Nation Fisheries Technicians,49.484078,-123.76236,H,0,38,0,0,0,2023 last year of sampling
+PSJ,BC,Port of San Juan,Pacheedaht First Nation,48.563292,-124.42468,E,0,0,0,0,0,
+QUA,BC,Quathiaski Cove,Hakai Institute and Quadra Island Community,50.042604,-125.21604,G,0,0,60,72,57,moved from Heriot Bay to here in 2024
+RET,BC,Retreat Cove,Galiano Conservation Association,48.940555,-123.50132,H,69,70,39,14,0,
+SAL,BC,Saltspring Island,Saltspring Community,48.845178,-123.489863,,0,0,0,71,69,
+SIL,BC,Silva Bay,Gabriola Power Squadron,49.149062,-123.69713,H,70,79,78,73,80,
+SOO,BC,Sooke Basin,T'sou-ke Nation,48.37,-123.72722,E,0,19,31,45,49,
+SQU,BC,Squamish,Squamish Community,49.694611,-123.154333,,0,0,0,0,65,
+SUR,BC,Surge Narrows,Surge Narrows School,50.227191,-125.11224,G,41,24,0,0,0,2023 last year of sampling
+TAK,BC,Takush Harbour,Gwa'sala-'Nakwaxda'xw Nation Guardians,51.284665,-127.64141,G,0,0,0,0,0,
+TOF,BC,Tofino,Jamie's Whaling Station,49.151969,-125.89702,E,0,0,50,39,40,
+VIC,BC,Victoria International Marina,Gorge Waterways Action Society,48.42697,-123.38386,H,0,0,67,71,59,
+WHA,BC,Whaler Bay,Institute for Multidisciplinary Ecological Research in the Salish Sea,48.884619,-123.32731,H,56,24,61,56,37,
+WIN,BC,Winter Cove,Saturna Ecological Education Centre,48.809618,-123.1902,H,17,0,0,0,0,2022 only year of sampling
 ANA,WA,Fidalgo Bay - Anacortes,Swinomish Indian Tribal Community,48.510059,-122.604745,NA,,,,,Y,
 APS,WA,Agate Pass South - Kiana Lodge,Suquamish Tribe,47.70186,-122.581108,NA,,,,,Y,
 BBA,WA,Birch Bay,DNR,48.93431,-122.763,NA,,,,,Y,
