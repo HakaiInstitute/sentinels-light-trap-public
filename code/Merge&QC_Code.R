@@ -45,12 +45,15 @@ select(-Battery, -submissionid, -Comments) #remove columns from rough dataset th
                                         #don't match
 counts25 <- read_csv("data/2025/2025_CountData_QC.csv",
                      col_select = 2:27)
+#Temporary 2026 dataset (not QCd) for generating preliminary figures 
 counts26 <- read_csv("data/2026/Rough_MasterCounts_V5.csv") %>%
   select(-Battery, -submissionid, -Comments, -Number_People, -Check_Time,
          -Pink_Salmon, -Chum_Salmon, -Chinook_Salmon, -Sandlance) #remove columns from rough dataset that 
 #don't match
 
-fishcounts26 <- read_csv ("data/2026/Rough_MasterCounts_V5.csv") ##dataframe without
+counts26$CPUE_Hour <- as.numeric(counts26$CPUE_Hour)#adjust CPUE_Hour to numeric
+
+fishcounts26 <- read_csv ("data/2026/Rough_MasterCounts_V5.csv") ##temporary dataframe without
 #columns removed to include fish species
 
 
