@@ -40,15 +40,25 @@ library(dplyr)
 # BC Count Data - all years available
 counts22 <- read_csv("data/2022/2022_CountData_QC.csv")
 counts23 <- read_csv("data/2023/2023_CountData_QC.csv")
-counts24 <- read_csv("data/2024/2024_CountData_QC.csv")
-counts24 <- select(counts24, -Battery, -submissionid, -Comments) #remove columns from rough dataset that 
+counts24 <- read_csv("data/2024/2024_CountData_QC.csv") %>%
+select(-Battery, -submissionid, -Comments) #remove columns from rough dataset that 
                                         #don't match
 counts25 <- read_csv("data/2025/2025_CountData_QC.csv",
                      col_select = 2:27)
+counts26 <- read_csv("data/2026/Rough_MasterCounts_V5.csv") %>%
+  select(-Battery, -submissionid, -Comments, -Number_People, -Check_Time,
+         -Pink_Salmon, -Chum_Salmon, -Chinook_Salmon, -Sandlance) #remove columns from rough dataset that 
+#don't match
+
+fishcounts26 <- read_csv ("data/2026/Rough_MasterCounts_V5.csv") ##dataframe without
+#columns removed to include fish species
+
 
 
 #combine them
-counts_all <- rbind(counts22, counts23, counts24, counts25)
+counts_all <- rbind(counts22, counts23, counts24, counts25, counts26)
+
+sort(unique(counts_all$Code))
 
 ###Bring in Stations data to get lats and longs
 stations <- read.csv("data/Master_Stations.csv") %>% 
@@ -56,6 +66,9 @@ stations <- read.csv("data/Master_Stations.csv") %>%
 
 #join datasets, now all entries have an associated lat and long
 counts_raw <- merge(counts_all,stations,by=c("Site"))
+
+#create temporary dataframe for 2026 graphs pre-QC
+write_csv(counts_raw, "data/Master_2026_Rough.csv")
 
 
 #==== QAQC DETERMINATIONS ======================================================
