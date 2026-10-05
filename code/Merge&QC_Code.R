@@ -46,14 +46,15 @@ select(-Battery, -submissionid, -Comments) #remove columns from rough dataset th
 counts25 <- read_csv("data/2025/2025_CountData_QC.csv",
                      col_select = 2:27)
 #Temporary 2026 dataset (not QCd) for generating preliminary figures 
-counts26 <- read_csv("data/2026/Rough_MasterCounts_V5.csv") %>%
+counts26 <- read_csv("data/2026/2026_CountData_QC.csv") %>%
   select(-Battery, -submissionid, -Comments, -Number_People, -Check_Time,
          -Pink_Salmon, -Chum_Salmon, -Chinook_Salmon, -Sandlance) #remove columns from rough dataset that 
 #don't match
 
 counts26$CPUE_Hour <- as.numeric(counts26$CPUE_Hour)#adjust CPUE_Hour to numeric
 
-fishcounts26 <- read_csv ("data/2026/Rough_MasterCounts_V5.csv") ##temporary dataframe without
+fishcounts26 <- read_csv ("data/2026/2026_CountData_QC.csv") %>%
+  select(-Battery, -submissionid, -Comments, -Number_People, -Check_Time) ##temporary dataframe without
 #columns removed to include fish species
 
 
@@ -130,6 +131,9 @@ write_csv(counts_raw, "data/Master_raw_LightTrap_Counts.csv")
 
 ##create master csv filtered by QC codes
 write_csv(counts_QC, "data/Master_QAQC_LightTrap_Counts.csv")
+
+##create 2026 fish abundance csv for 2026
+write_csv(fishcounts26, "data/2026/2026_fish_data.csv")
 
 #####MEASUREMENTS#####
 write_csv(measurements_all, "data/Master_QAQC_Carapace_Width_Measurements.csv")
