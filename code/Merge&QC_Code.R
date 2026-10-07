@@ -10,9 +10,10 @@
 #     2023_CountData_QC.csv
 #     2024_CountData_QC.csv
 #     2025_CountData_QC.csv
+#     2026_CountData_QC.csv
 #     2023_Megalopae_Carapace_Widths.csv
 #     2024_Megalopae_Carapace_Widths.csv
-#     2025_Megalopae_Carapace_Widths.csv
+#     
 #
 # Output:
 #     Master_QAQC_LT_counts.csv
@@ -70,9 +71,6 @@ stations <- read.csv("data/Master_Stations.csv") %>%
 
 #join datasets, now all entries have an associated lat and long
 counts_raw <- merge(counts_all,stations,by=c("Site"))
-
-#create temporary dataframe for 2026 graphs pre-QC
-write_csv(counts_raw, "data/Master_2026_Rough.csv")
 
 
 #==== QAQC DETERMINATIONS ======================================================
